@@ -1,10 +1,8 @@
 package com.pizza.pizza;
 
-import com.pizza.pizza.entity.PizzaRepository;
-
 import java.util.Arrays;
 
-import com.pizza.pizza.entity.Pizza;
+import com.pizza.pizza.repository.PizzaRepository;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,15 +23,11 @@ public class PizzaApplication {
 
 	@Bean
 	public CommandLineRunner demo(PizzaRepository pizzaRepository){
-		return (args) -> {
-			pizzaRepository.save(new Pizza("Margherita"));
-			pizzaRepository.save(new Pizza("Marinara"));
-
+		return args -> {
 			Arrays.asList("Margherita", "Capricciosa").forEach(name -> {
 				var pizza = pizzaRepository.findByName(name);
 				logger.info(String.format("Pizza %s exists? %s", name, pizza != null));
 			});
-
 		};
 	}
 

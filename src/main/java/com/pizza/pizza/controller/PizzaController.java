@@ -1,9 +1,9 @@
-package com.pizza.pizza;
+package com.pizza.pizza.controller;
 
 import java.util.List;
 
-import com.pizza.pizza.entity.Pizza;
-import com.pizza.pizza.entity.PizzaRepository;
+import com.pizza.pizza.model.Pizza;
+import com.pizza.pizza.repository.PizzaRepository;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
