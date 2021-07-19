@@ -27,6 +27,7 @@ public class PizzaApplication {
 	public CommandLineRunner demo(PizzaRepository pizzaRepository){
 		return (args) -> {
 			pizzaRepository.save(new Pizza("Margherita"));
+			pizzaRepository.save(new Pizza("Marinara"));
 
 			Arrays.asList("Margherita", "Capricciosa").forEach(name -> {
 				var pizza = pizzaRepository.findByName(name);
