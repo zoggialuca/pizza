@@ -6,7 +6,7 @@ const Pizzas = () => {
     const [pizzas, setPizzas] = useState();
     
     const fetchPizza = () => {
-        fetch("http://localhost:8080/pizzas")
+        fetch("http://localhost:3001/pizzas")
            .then(res => throwErrorIfResponseNotOk(res, Error("No answer from backend")))
            .then(res => res.json())
            .then(json => setPizzas(json))
