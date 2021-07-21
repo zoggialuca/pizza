@@ -5,6 +5,6 @@ services:
     container_name: pizza-frontend
     build: .
     ports:
-      - 3001:80
+      - 3002:80
     
 
