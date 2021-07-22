@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import PizzaList from "./PizzaList";
 import {throwErrorIfResponseNotOk} from "./util/error.js";
 
+const BACKEND_API_URL = process.env.REACT_APP_BACKEND_API_URL
+
 const Pizzas = () => {
     const [pizzas, setPizzas] = useState();
     
     const fetchPizza = () => {
-        fetch("http://localhost:8080/pizzas")
+        fetch(`${BACKEND_API_URL}pizzas`)
            .then(res => throwErrorIfResponseNotOk(res, Error("No answer from backend")))
            .then(res => res.json())
            .then(json => setPizzas(json))

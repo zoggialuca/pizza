@@ -1,0 +1,10 @@
+version: "0.1"
+
+services:
+  pizza-frontend:
+    container_name: pizza-frontend
+    build: .
+    ports:
+      - 3002:80
+    
+
