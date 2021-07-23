@@ -13,6 +13,7 @@ import com.pizza.pizza.repository.IngredientRepository;
 import com.pizza.pizza.repository.PizzaIngredientRepository;
 import com.pizza.pizza.repository.PizzaRepository;
 import com.pizza.pizza.repository.UnitOfMeasureRepository;
+import com.pizza.pizza.service.PizzaRepositoryService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,7 @@ public class PizzaConfiguration {
 			, IngredientRepository ingredientRepository
 			, PizzaIngredientRepository pizzaIngredientRepository
 			, UnitOfMeasureRepository unitOfMeasureRepository
+			, PizzaRepositoryService pizzaRepositoryService
 		){
 		return args -> {
 			var unitOfMeasures = Arrays.asList("pieces", "g");
@@ -51,21 +53,70 @@ public class PizzaConfiguration {
 			pizzas.stream().forEach(pizza -> {
 				pizzaRepository.save(pizza);
 
-				var ingredient = ingredientRepository.findByName(ingredients.get(0)).get();
 				var unitOfMeasure = unitOfMeasureRepository.findByName(unitOfMeasures.get(0)).get();
 				var quantity = Double.valueOf(new Random().nextInt(10) + 1);
 
-				var pizzaIngredient = new PizzaIngredient(pizza, ingredient);
-				pizzaIngredient.setQuantity(quantity);
-				pizzaIngredient.setUnitOfMeasure(unitOfMeasure);
-
 				var pizzaIngredients = new HashSet<PizzaIngredient>();
-				pizzaIngredients.add(pizzaIngredient);
-				pizza.setPizzaIngredients(pizzaIngredients);
 
-				pizzaIngredientRepository.save(pizzaIngredient);
+				ingredients.stream()
+					.limit(2)
+					.map(ingredient -> ingredientRepository.findByName(ingredient).get())
+					.forEach(ingredient -> {
+						var pizzaIngredient = new PizzaIngredient(pizza, ingredient);
+						pizzaIngredient.setQuantity(quantity);
+						pizzaIngredient.setUnitOfMeasure(unitOfMeasure);
+						pizzaIngredients.add(pizzaIngredient);
+						pizzaIngredientRepository.save(pizzaIngredient);
+					});
+				pizza.setPizzaIngredients(pizzaIngredients);
 			});
 			logger.info("pizza populated");
+
+			var additionalPizzas = new ArrayList<Pizza>();
+			additionalPizzas.add(new Pizza("A", true));
+			additionalPizzas.add(new Pizza("B", true));
+			pizzaRepositoryService.bulkInsertTransactionNoAnnotation(additionalPizzas);
+			logger.info("1 additionalPizzas added");
+
+			additionalPizzas.clear();
+			additionalPizzas.add(new Pizza("C", true));
+			additionalPizzas.add(new Pizza("A", true));
+
+			try {
+				pizzaRepositoryService.bulkInsertTransactionNoAnnotation(additionalPizzas);
+				logger.info("NO ANNOTATION additionalPizzas added");
+			} catch (Exception e) {
+				logger.error("NO ANNOTATION additionalPizzas error!!!");
+			}
+			System.out.println("NO ANNOTATION");
+			pizzaRepositoryService.findAll().stream().map(pizza -> pizza.getName()).forEach(System.out::println);
+			
+			try {
+				pizzaRepositoryService.bulkInsertTransactionAnnotation(additionalPizzas);
+				logger.info("ANNOTATION additionalPizzas added");
+			} catch (Exception e) {
+				logger.error("ANNOTATION additionalPizzas error!!!");
+			}
+			System.out.println("ANNOTATION");
+			pizzaRepositoryService.findAll().stream().map(pizza -> pizza.getName()).forEach(System.out::println);
+			
+			try {
+				pizzaRepositoryService.bulkInsertTransactionDummy(additionalPizzas);
+				logger.info("DUMMY additionalPizzas added");
+			} catch (Exception e) {
+				logger.error("DUMMY additionalPizzas error!!!");
+			}
+			System.out.println("DUMMY");
+			pizzaRepositoryService.findAll().stream().map(pizza -> pizza.getName()).forEach(System.out::println);
+			
+			try {
+				pizzaRepositoryService.bulkInsertNoTransaction(additionalPizzas);
+				logger.info("NO TRANSACTION additionalPizzas added");
+			} catch (Exception e) {
+				logger.error("NO TRANSACTION additionalPizzas error!!!");
+			}
+			System.out.println("NO TRANSACTION");
+			pizzaRepositoryService.findAll().stream().map(pizza -> pizza.getName()).forEach(System.out::println);
 
 			logger.info("Database populated");
 		};
