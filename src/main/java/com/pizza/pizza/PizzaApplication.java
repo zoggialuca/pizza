@@ -23,23 +23,18 @@ public class PizzaApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demo(IngredientRepository ingredientRepository){
+	public CommandLineRunner demo(PizzaRepository pizzaRepository, IngredientRepository ingredientRepository){
 		return args -> {
+			Arrays.asList("Margherita", "Capricciosa").forEach(name -> {
+				var pizza = pizzaRepository.findByName(name);
+				logger.info(String.format("Pizza %s exists? %s", name, !pizza.isEmpty()));
+			});
+
 			Arrays.asList("Pomodoro", "Carciofo").forEach(name -> {
 				var ingredient = ingredientRepository.findByName(name);
 				logger.info(String.format("Ingrediente %s exists? %s", name, !ingredient.isEmpty()));
 			});
 		};
 	}
-
-	// @Bean
-	// public CommandLineRunner demo(PizzaRepository pizzaRepository){
-	// 	return args -> {
-	// 		Arrays.asList("Margherita", "Capricciosa").forEach(name -> {
-	// 			var pizza = pizzaRepository.findByName(name);
-	// 			logger.info(String.format("Pizza %s exists? %s", name, !pizza.isEmpty()));
-	// 		});
-	// 	};
-	// }
 
 }
