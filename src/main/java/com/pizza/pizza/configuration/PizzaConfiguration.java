@@ -48,7 +48,6 @@ public class PizzaConfiguration {
 			pizzas.add(new Pizza("Margherita", true));
 			pizzas.add(new Pizza("Marinara", true));
 			pizzas.add(new Pizza("Prosciutto"));
-			//pizzas.stream().forEach(pizza -> pizzaRepository.save(pizza));
 			pizzas.stream().forEach(pizza -> {
 				pizzaRepository.save(pizza);
 
