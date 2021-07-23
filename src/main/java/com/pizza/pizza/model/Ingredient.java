@@ -10,6 +10,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.pizza.pizza.serializer.PizzaIngredientPizzasSerializer;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -26,6 +29,7 @@ public class Ingredient {
     private final @NonNull String name;
 
     @OneToMany(mappedBy = "ingredient") @ToString.Exclude @EqualsAndHashCode.Exclude
+    @JsonSerialize(using = PizzaIngredientPizzasSerializer.class)
     Set<PizzaIngredient> pizzaIngredients;
     
     //necessary to run the demo
