@@ -17,33 +17,24 @@ import lombok.ToString;
 
 @Entity
 @Data
-@Table(name="pizza"
+@Table(name="ingredient"
     , uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})}
 )
-public class Pizza {
+public class Ingredient {
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private final @NonNull String name;
-    private final @NonNull Boolean isVegetarian;
 
-    @OneToMany(mappedBy = "pizza") @ToString.Exclude @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "ingredient") @ToString.Exclude @EqualsAndHashCode.Exclude
     Set<PizzaIngredient> pizzaIngredients;
-
+    
     //necessary to run the demo
-    protected Pizza(){
+    protected Ingredient(){
         this.name = "";
-        this.isVegetarian = false;
     }
 
     //necessary to run the demo
-    public Pizza(String name){
+    public Ingredient(String name){
         this.name = name;
-        this.isVegetarian = false;
-    }
-
-    //necessary to run the demo
-    public Pizza(String name, Boolean isVegetarian){
-        this.name = name;
-        this.isVegetarian = isVegetarian;
     }
 }
