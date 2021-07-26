@@ -10,8 +10,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.pizza.pizza.serializer.PizzaIngredientIngredientsSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import org.springframework.hateoas.RepresentationModel;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,26 +24,24 @@ import lombok.ToString;
 @Table(name="pizza"
     , uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})}
 )
-public class Pizza {
+public class Pizza extends RepresentationModel<Pizza>{
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private final @NonNull String name;
     private final @NonNull Boolean isVegetarian;
 
     @OneToMany(mappedBy = "pizza") @ToString.Exclude @EqualsAndHashCode.Exclude
-    @JsonSerialize(using = PizzaIngredientIngredientsSerializer.class)
+    @JsonIgnore
     Set<PizzaIngredient> pizzaIngredients;
 
     //necessary to run the demo
     protected Pizza(){
-        this.name = "";
-        this.isVegetarian = false;
+        this("");
     }
 
     //necessary to run the demo
     public Pizza(String name){
-        this.name = name;
-        this.isVegetarian = false;
+        this(name, Boolean.FALSE);
     }
 
     //necessary to run the demo

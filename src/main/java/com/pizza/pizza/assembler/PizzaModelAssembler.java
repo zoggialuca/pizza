@@ -16,6 +16,7 @@ public class PizzaModelAssembler implements RepresentationModelAssembler<Pizza, 
         return EntityModel.of(pizza
             , linkTo(methodOn(PizzaController.class).getPizza(pizza.getId())).withSelfRel()
             , linkTo(methodOn(PizzaController.class).getPizzas()).withRel("pizzas")
+            , linkTo(methodOn(PizzaController.class).getPizzaIngredients(pizza.getId())).withRel("ingredients")
             );
     }
 }

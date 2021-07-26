@@ -9,6 +9,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import lombok.Data;
 import lombok.NonNull;
 
@@ -17,7 +19,7 @@ import lombok.NonNull;
 @Table(name="pizza_ingredient"
     , uniqueConstraints = {@UniqueConstraint(columnNames = {"pizza", "ingredient"})}    
 )
-public class PizzaIngredient {
+public class PizzaIngredient extends RepresentationModel<PizzaIngredient>{
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
@@ -37,8 +39,7 @@ public class PizzaIngredient {
 
     //necessary to run the demo
     protected PizzaIngredient(){
-        this.pizza = null;
-        this.ingredient = null;
+        this(null, null);
     }
 
     //necessary to run the demo
