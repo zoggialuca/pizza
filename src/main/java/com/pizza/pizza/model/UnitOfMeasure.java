@@ -6,13 +6,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import lombok.Data;
 import lombok.NonNull;
 
 @Entity
 @Data
 @Table(name="unit_of_measure")
-public class UnitOfMeasure {
+public class UnitOfMeasure extends RepresentationModel<UnitOfMeasure>{
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private final @NonNull String name;

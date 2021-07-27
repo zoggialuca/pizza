@@ -16,6 +16,7 @@ public class PizzaIngredientModelAssembler implements RepresentationModelAssembl
 
     @Autowired PizzaModelAssembler pizzaModelAssembler;
     @Autowired IngredientModelAssembler ingredientModelAssembler;
+    @Autowired UnitOfMeasureModelAssembler unitOfMeasureModelAssembler;
 
     @Override
     public EntityModel<PizzaIngredient> toModel(PizzaIngredient pizzaIngredient){
@@ -26,7 +27,16 @@ public class PizzaIngredientModelAssembler implements RepresentationModelAssembl
         }
 
         var ingredient = pizzaIngredient.getIngredient();
-        ingredient.add(ingredientModelAssembler.toModel(ingredient).getLinks());
+        if (!ingredient.hasLinks()) //prevents to repeat the links multiple times in case of multiple ingredients for the same ingredient
+        {
+            ingredient.add(ingredientModelAssembler.toModel(ingredient).getLinks());
+        }
+
+        var unitOfMeasure = pizzaIngredient.getUnitOfMeasure();
+        if (!unitOfMeasure.hasLinks()) //prevents to repeat the links multiple times in case of multiple ingredients for the same unit of measure
+        {
+            unitOfMeasure.add(unitOfMeasureModelAssembler.toModel(unitOfMeasure).getLinks());
+        }
 
         return EntityModel.of(pizzaIngredient
             , linkTo(methodOn(PizzaIngredientController.class).getPizzaIngredient(pizzaIngredient.getId())).withSelfRel()

@@ -16,6 +16,7 @@ public class IngredientRepositoryService extends RepositoryService<Ingredient, L
         super(ingredientRepository);
         this.ingredientRepository = ingredientRepository;
     }
+    
     public Optional<Ingredient> findByName(String name){
         return ingredientRepository.findByName(name);
     }

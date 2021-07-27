@@ -35,7 +35,7 @@ public class IngredientController {
 	}
 
 	@GetMapping("/ingredients/name/{name}")
-	public EntityModel<Ingredient> getPizza(@PathVariable String name) {
+	public EntityModel<Ingredient> getIngredient(@PathVariable String name) {
 		var ingredient = ingredientRepositoryService.findByName(name);
 		return ingredientModelAssembler.toModel(ingredient.orElseThrow(() -> new IngredientNotFoundException(name)));
 	}
