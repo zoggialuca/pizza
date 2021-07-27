@@ -5,18 +5,14 @@ import java.util.Optional;
 import com.pizza.pizza.model.UnitOfMeasure;
 import com.pizza.pizza.repository.UnitOfMeasureRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UnitOfMeasureRepositoryService extends RepositoryService<UnitOfMeasure, Long>{
+public class UnitOfMeasureRepositoryService extends RepositoryService<UnitOfMeasure, Long, UnitOfMeasureRepository>{
     
-    protected UnitOfMeasureRepository unitOfMeasureRepository;
-
-    public UnitOfMeasureRepositoryService(UnitOfMeasureRepository unitOfMeasureRepository){
-        super(unitOfMeasureRepository);
-        this.unitOfMeasureRepository = unitOfMeasureRepository;
-    }
-
+    @Autowired UnitOfMeasureRepository unitOfMeasureRepository;
+    
     public Optional<UnitOfMeasure> findByName(String name){
         return unitOfMeasureRepository.findByName(name);
     }
