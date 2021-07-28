@@ -35,48 +35,65 @@ public class PizzaConfiguration {
 		){
 		return args -> {
 			var unitOfMeasures = Arrays.asList("pieces", "g");
-			unitOfMeasures.stream()
-				.map(unitOfMeasure -> new UnitOfMeasure(unitOfMeasure))
-				.forEach(unitOfMeasure -> unitOfMeasureRepository.save(unitOfMeasure));
-			logger.info("unit_of_measure populated");
+			try {
+				unitOfMeasures.stream()
+					.map(unitOfMeasure -> new UnitOfMeasure(unitOfMeasure))
+					.forEach(unitOfMeasure -> unitOfMeasureRepository.save(unitOfMeasure));
+				logger.info("unit_of_measure populated");
+			} catch (Exception e) {
+				logger.info("Exception while populating unit_of_measure");
+			}
 
+			
 			var ingredients = Arrays.asList("Mozzarella", "Pomodoro", "Aglio", "Prosciutto crudo");
-			ingredients.stream()
-				.map(ingredient -> new Ingredient(ingredient))
-				.forEach(ingredient -> ingredientRepository.save(ingredient));
-			logger.info("ingredient populated");
-
-			var pizzas = new ArrayList<Pizza>();
-			pizzas.add(new Pizza("Margherita", true));
-			pizzas.add(new Pizza("Marinara", true));
-			pizzas.add(new Pizza("Prosciutto"));
-			pizzas.stream().forEach(pizza -> {
-				pizzaRepository.save(pizza);
-
-				var unitOfMeasure = unitOfMeasureRepository.findByName(unitOfMeasures.get(0)).get();
-				var quantity = Double.valueOf(new Random().nextInt(10) + 1);
-
-				var pizzaIngredients = new HashSet<PizzaIngredient>();
-
+			try {
 				ingredients.stream()
-					.limit(2)
-					.map(ingredient -> ingredientRepository.findByName(ingredient).get())
-					.forEach(ingredient -> {
-						var pizzaIngredient = new PizzaIngredient(pizza, ingredient);
-						pizzaIngredient.setQuantity(quantity);
-						pizzaIngredient.setUnitOfMeasure(unitOfMeasure);
-						pizzaIngredients.add(pizzaIngredient);
-						pizzaIngredientRepository.save(pizzaIngredient);
-					});
-				pizza.setPizzaIngredients(pizzaIngredients);
-			});
-			logger.info("pizza populated");
+					.map(ingredient -> new Ingredient(ingredient))
+					.forEach(ingredient -> ingredientRepository.save(ingredient));
+				logger.info("ingredient populated");
+			} catch (Exception e) {
+				logger.info("Exception while populating ingredient");
+			}
+
+			try {
+				var pizzas = new ArrayList<Pizza>();
+				pizzas.add(new Pizza("Margherita", true));
+				pizzas.add(new Pizza("Marinara", true));
+				pizzas.add(new Pizza("Prosciutto"));
+				pizzas.stream().forEach(pizza -> {
+					pizzaRepository.save(pizza);
+	
+					var unitOfMeasure = unitOfMeasureRepository.findByName(unitOfMeasures.get(0)).get();
+					var quantity = Double.valueOf(new Random().nextInt(10) + 1);
+	
+					var pizzaIngredients = new HashSet<PizzaIngredient>();
+	
+					ingredients.stream()
+						.limit(2)
+						.map(ingredient -> ingredientRepository.findByName(ingredient).get())
+						.forEach(ingredient -> {
+							var pizzaIngredient = new PizzaIngredient(pizza, ingredient);
+							pizzaIngredient.setQuantity(quantity);
+							pizzaIngredient.setUnitOfMeasure(unitOfMeasure);
+							pizzaIngredients.add(pizzaIngredient);
+							pizzaIngredientRepository.save(pizzaIngredient);
+						});
+					pizza.setPizzaIngredients(pizzaIngredients);
+				});
+				logger.info("pizza populated");
+			} catch (Exception e) {
+				logger.info("Exception while populating pizza");
+			}
 
 			var additionalPizzas = new ArrayList<Pizza>();
-			additionalPizzas.add(new Pizza("A", true));
-			additionalPizzas.add(new Pizza("B", true));
-			pizzaRepositoryService.bulkInsertTransactionNoAnnotation(additionalPizzas);
-			logger.info("1 additionalPizzas added");
+			try {
+				additionalPizzas.add(new Pizza("A", true));
+				additionalPizzas.add(new Pizza("B", true));
+				pizzaRepositoryService.bulkInsertTransactionNoAnnotation(additionalPizzas);
+				logger.info("additionalPizzas added");
+			} catch (Exception e) {
+				logger.info("Exception while populating pizza with additional pizzas");
+			}
 
 			additionalPizzas.clear();
 			additionalPizzas.add(new Pizza("C", true));
