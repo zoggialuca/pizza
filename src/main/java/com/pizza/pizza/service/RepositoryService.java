@@ -19,4 +19,14 @@ public class RepositoryService<T, ID, R extends JpaRepository<T, ID>> implements
     public Optional<T> findById(ID id){
         return jpaRepository.findById(id);
     }
+
+    @Override
+    public T save(T t){
+        return jpaRepository.save(t);
+    }
+
+    @Override
+    public void deleteById(ID id){
+        jpaRepository.deleteById(id);
+    }
 }

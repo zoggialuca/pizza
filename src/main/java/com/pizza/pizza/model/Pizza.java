@@ -40,6 +40,12 @@ public class Pizza extends RepresentationModel<Pizza>{
     }
 
     //necessary to run the demo
+    public Pizza(Long id){
+        this();
+        this.id = id;
+    }
+
+    //necessary to run the demo
     public Pizza(String name){
         this(name, Boolean.FALSE);
     }

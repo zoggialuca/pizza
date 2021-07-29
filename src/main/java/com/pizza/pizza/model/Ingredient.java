@@ -39,6 +39,12 @@ public class Ingredient extends RepresentationModel<Ingredient>{
     }
 
     //necessary to run the demo
+    public Ingredient(Long id){
+        this();
+        this.id = id;
+    }
+
+    //necessary to run the demo
     public Ingredient(String name){
         this.name = name;
     }

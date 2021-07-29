@@ -28,6 +28,12 @@ public class UnitOfMeasure extends RepresentationModel<UnitOfMeasure>{
     }
 
     //necessary to run the demo
+    protected UnitOfMeasure(Long id){
+        this();
+        this.id = id;
+    }
+
+    //necessary to run the demo
     public UnitOfMeasure(String name){
         this.name = name;
     }
