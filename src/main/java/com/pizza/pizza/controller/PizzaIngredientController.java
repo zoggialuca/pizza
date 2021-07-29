@@ -1,7 +1,5 @@
 package com.pizza.pizza.controller;
 
-import java.util.Optional;
-
 import com.pizza.pizza.assembler.PizzaIngredientModelAssembler;
 import com.pizza.pizza.exception.PizzaIngredientNotFoundException;
 import com.pizza.pizza.model.PizzaIngredient;
