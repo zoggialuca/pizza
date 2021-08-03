@@ -1,0 +1,1 @@
+Sample application as playground for Spring Boot
