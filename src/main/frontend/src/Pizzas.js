@@ -11,7 +11,7 @@ const Pizzas = () => {
         fetch(`${BACKEND_API_URL}pizzas`)
            .then(res => throwErrorIfResponseNotOk(res, Error("No answer from backend")))
            .then(res => res.json())
-           .then(json => setPizzas(json))
+           .then(json => setPizzas(json._embedded.pizzaList))
            .catch(e => console.log(`ERROR\n${e}`));
     };
     useEffect(fetchPizza, []);
