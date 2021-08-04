@@ -6,5 +6,8 @@ services:
     build: .
     ports:
       - 3002:80
-    
+    networks: 
+      - frontend
 
+networks:
+  frontend:

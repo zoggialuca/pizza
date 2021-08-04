@@ -2,7 +2,7 @@
 FROM gradle:jdk11 as build
 WORKDIR /app
 COPY . ./
-RUN gradle build
+RUN gradle build -x test
 
 FROM openjdk:11
 EXPOSE 8080
