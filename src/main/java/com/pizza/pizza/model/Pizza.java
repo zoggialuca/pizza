@@ -1,29 +1,19 @@
 package com.pizza.pizza.model;
 
-import java.util.Set;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import lombok.*;
+import org.hibernate.Hibernate;
 import org.springframework.hateoas.RepresentationModel;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
-import lombok.ToString;
+import javax.persistence.*;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
+@ToString
+@RequiredArgsConstructor
 @Table(name="pizza"
     , uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})}
 )
@@ -37,21 +27,25 @@ public class Pizza extends RepresentationModel<Pizza>{
     @JsonIgnore
     Set<PizzaIngredient> pizzaIngredients;
 
-    //necessary to run the demo
     protected Pizza(){
         this("");
     }
 
-    //necessary to run the demo
     public Pizza(String name){
         this(name, Boolean.FALSE);
     }
 
-    //necessary to run the demo
-    public Pizza(String name, Boolean isVegetarian){
-        this.name = name;
-        this.isVegetarian = isVegetarian;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Pizza pizza = (Pizza) o;
+
+        return Objects.equals(id, pizza.id);
     }
 
-    //implement: equals and hasCode
+    @Override
+    public int hashCode() {
+        return 2055526148;
+    }
 }
