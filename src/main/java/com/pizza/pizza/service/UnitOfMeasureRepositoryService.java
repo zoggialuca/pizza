@@ -11,9 +11,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class UnitOfMeasureRepositoryService extends RepositoryService<UnitOfMeasure, Long, UnitOfMeasureRepository>{
     
-    @Autowired UnitOfMeasureRepository unitOfMeasureRepository;
+    @Autowired
+    public UnitOfMeasureRepositoryService(UnitOfMeasureRepository unitOfMeasureRepository){
+        super(unitOfMeasureRepository);
+    }
     
     public Optional<UnitOfMeasure> findByName(String name){
-        return unitOfMeasureRepository.findByName(name);
+        return jpaRepository.findByName(name);
     }
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
@@ -46,15 +47,15 @@ public class PizzaController {
 		return pizzaModelAssembler.toModel(pizza.orElseThrow(() -> new PizzaNotFoundException(id)));
 	}
 
-	@GetMapping("/pizzas/name/{name}")
-	public EntityModel<Pizza> getPizza(@PathVariable String name) {
+	@GetMapping(path = "/pizzas", params = "name")
+	public EntityModel<Pizza> getPizza(@RequestParam String name) {
 		var pizza = pizzaRepositoryService.findByName(name);
 		return pizzaModelAssembler.toModel(pizza.orElseThrow(() -> new PizzaNotFoundException(name)));
 	}
 
-	@GetMapping("/pizzas/isVegetarian/{isVegetarian}")
-	public CollectionModel<EntityModel<Pizza>> getPizzas(@PathVariable Optional<Boolean> isVegetarian) {
-		var pizzas = pizzaRepositoryService.findByIsVegetarian(isVegetarian);
+	@GetMapping(path = "/pizzas", params = "isVegetarian")
+	public CollectionModel<EntityModel<Pizza>> getPizzas(@RequestParam(required = false) boolean isVegetarian) {
+		var pizzas = pizzaRepositoryService.findByIsVegetarian(Optional.of(Boolean.valueOf(isVegetarian)));
 		return CollectionModel.of(pizzas.stream().map(pizzaModelAssembler::toModel).collect(Collectors.toList()));
 	}
 

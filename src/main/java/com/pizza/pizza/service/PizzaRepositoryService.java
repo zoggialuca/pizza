@@ -17,37 +17,40 @@ public class PizzaRepositoryService extends RepositoryService<Pizza, Long, Pizza
 
 	private static final Logger logger = LoggerFactory.getLogger(PizzaRepositoryService.class);
     
-    @Autowired protected PizzaRepository pizzaRepository;
+    @Autowired
+    public PizzaRepositoryService(PizzaRepository pizzaRepository){
+        super(pizzaRepository);
+    }
 
     public Optional<Pizza> findByName(String name){
-        return pizzaRepository.findByName(name);
+        return jpaRepository.findByName(name);
     }
 
     public List<Pizza> findByIsVegetarian(Optional<Boolean> isVegetarian){
-        return pizzaRepository.findByIsVegetarian(isVegetarian);
+        return jpaRepository.findByIsVegetarian(isVegetarian);
     }
 
     public boolean bulkInsertTransactionNoAnnotation(List<Pizza> pizzas){
-        pizzaRepository.saveAll(pizzas);
+        jpaRepository.saveAll(pizzas);
         return true;
     }
 
     @Transactional
     public boolean bulkInsertTransactionAnnotation(List<Pizza> pizzas){
-        pizzaRepository.saveAll(pizzas);
+        jpaRepository.saveAll(pizzas);
         return true;
     }
 
     @Transactional
     public boolean bulkInsertTransactionDummy(List<Pizza> pizzas){
-        pizzas.forEach(pizza -> pizzaRepository.save(pizza));
+        pizzas.forEach(pizza -> jpaRepository.save(pizza));
         return true;
     }
 
     public boolean bulkInsertNoTransaction(List<Pizza> pizzas){
         pizzas.forEach(pizza -> {
             try{
-                pizzaRepository.save(pizza);
+                jpaRepository.save(pizza);
             }
             catch (Exception e){
                 logger.info(e.getMessage());

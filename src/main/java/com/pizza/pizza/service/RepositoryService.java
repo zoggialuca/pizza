@@ -3,12 +3,15 @@ package com.pizza.pizza.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public class RepositoryService<T, ID, R extends JpaRepository<T, ID>> implements BaseService<T, ID> {
+public abstract class RepositoryService<T, ID, R extends JpaRepository<T, ID>> implements BaseService<T, ID> {
 
-    @Autowired protected R jpaRepository;
+    protected R jpaRepository;
+
+    public RepositoryService(R jpaRepository){
+        this.jpaRepository = jpaRepository;
+    }
 
     @Override
     public List<T> findAll(){

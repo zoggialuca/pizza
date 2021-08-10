@@ -23,7 +23,7 @@ public class PizzaIngredientModelAssembler implements RepresentationModelAssembl
         var pizza = pizzaIngredient.getPizza();
         if (!pizza.hasLinks()) //prevents to repeat the links multiple times in case of multiple ingredients for the same pizza
         {
-            pizza.add(pizzaModelAssembler.toModel(pizza).getLinks().stream().filter(link -> link.getRel().value() != "ingredients").collect(Collectors.toList()));
+            pizza.add(pizzaModelAssembler.toModel(pizza).getLinks().stream().filter(link -> !link.getRel().value().equals("ingredients")).collect(Collectors.toList()));
         }
 
         var ingredient = pizzaIngredient.getIngredient();

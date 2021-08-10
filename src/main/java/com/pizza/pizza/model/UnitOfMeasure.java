@@ -24,13 +24,7 @@ public class UnitOfMeasure extends RepresentationModel<UnitOfMeasure>{
     
     //necessary to run the demo
     protected UnitOfMeasure(){
-        this.name = "";
-    }
-
-    //necessary to run the demo
-    protected UnitOfMeasure(Long id){
-        this();
-        this.id = id;
+        this("");
     }
 
     //necessary to run the demo

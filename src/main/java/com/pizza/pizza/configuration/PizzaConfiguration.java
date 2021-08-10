@@ -14,6 +14,7 @@ import com.pizza.pizza.repository.PizzaIngredientRepository;
 import com.pizza.pizza.repository.PizzaRepository;
 import com.pizza.pizza.repository.UnitOfMeasureRepository;
 import com.pizza.pizza.service.PizzaRepositoryService;
+//import com.pizza.pizza.service.RepositoryService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,12 +27,21 @@ public class PizzaConfiguration {
 
 	private static final Logger logger = LoggerFactory.getLogger(PizzaConfiguration.class);
 
+	//alternative way
+	/*
+	@Bean
+	public RepositoryService<UnitOfMeasure, Long, UnitOfMeasureRepository> createRepositoryService(UnitOfMeasureRepository unitOfMeasureRepository){
+		return new RepositoryService<>(unitOfMeasureRepository);
+	}
+	*/
+
 	@Bean
 	public CommandLineRunner initDatabase(PizzaRepository pizzaRepository
 			, IngredientRepository ingredientRepository
 			, PizzaIngredientRepository pizzaIngredientRepository
 			, UnitOfMeasureRepository unitOfMeasureRepository
 			, PizzaRepositoryService pizzaRepositoryService
+			//, RepositoryService<UnitOfMeasure, Long, UnitOfMeasureRepository> unitOfMeasureRepositoryService
 		){
 		return args -> {
 			var unitOfMeasures = Arrays.asList("pieces", "g");

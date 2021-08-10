@@ -16,11 +16,14 @@ import org.springframework.hateoas.RepresentationModel;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name="pizza"
     , uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})}
 )
@@ -40,12 +43,6 @@ public class Pizza extends RepresentationModel<Pizza>{
     }
 
     //necessary to run the demo
-    public Pizza(Long id){
-        this();
-        this.id = id;
-    }
-
-    //necessary to run the demo
     public Pizza(String name){
         this(name, Boolean.FALSE);
     }
@@ -55,4 +52,6 @@ public class Pizza extends RepresentationModel<Pizza>{
         this.name = name;
         this.isVegetarian = isVegetarian;
     }
+
+    //implement: equals and hasCode
 }

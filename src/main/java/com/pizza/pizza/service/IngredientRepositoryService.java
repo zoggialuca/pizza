@@ -11,9 +11,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class IngredientRepositoryService extends RepositoryService<Ingredient, Long, IngredientRepository>{
     
-    @Autowired protected IngredientRepository ingredientRepository;
+    @Autowired
+    public IngredientRepositoryService(IngredientRepository ingredientRepository){
+        super(ingredientRepository);
+    }
     
     public Optional<Ingredient> findByName(String name){
-        return ingredientRepository.findByName(name);
+        return jpaRepository.findByName(name);
     }
 }
