@@ -3,76 +3,57 @@ package com.pizza.pizza.controller;
 import java.util.stream.Collectors;
 
 import com.pizza.pizza.assembler.UnitOfMeasureModelAssembler;
-import com.pizza.pizza.exception.UnitOfMeasureNotFoundException;
-import com.pizza.pizza.model.UnitOfMeasure;
-import com.pizza.pizza.service.UnitOfMeasureRepositoryService;
+import com.pizza.pizza.dto.UnitOfMeasureDTO;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.pizza.pizza.service.UnitOfMeasureService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @CrossOrigin("*")
+@RequiredArgsConstructor
 public class UnitOfMeasureController {
-    
-	@Autowired private UnitOfMeasureRepositoryService unitOfMeasureRepositoryService;
-	@Autowired private UnitOfMeasureModelAssembler unitOfMeasureModelAssembler;
+
+	private final UnitOfMeasureModelAssembler unitOfMeasureModelAssembler;
+	private final UnitOfMeasureService unitOfMeasureService;
     
 	@GetMapping("/units_of_measure")
-	public CollectionModel<EntityModel<UnitOfMeasure>> getUnitOfMeasures() {
-		var unitOfMeasures = unitOfMeasureRepositoryService.findAll();
-		return CollectionModel.of(unitOfMeasures.stream().map(unitOfMeasureModelAssembler::toModel).collect(Collectors.toList()));
+	public ResponseEntity<CollectionModel<EntityModel<UnitOfMeasureDTO>>> getUnitsOfMeasures() {
+		var unitOfMeasures = unitOfMeasureService.findAll();
+		return ResponseEntity.ok(CollectionModel.of(unitOfMeasures.stream().map(unitOfMeasureModelAssembler::toModel).collect(Collectors.toList())));
 	}
 
 	@GetMapping("/units_of_measure/{id}")
-	public EntityModel<UnitOfMeasure> getUnitOfMeasure(@PathVariable Long id) {
-		var unitOfMeasure = unitOfMeasureRepositoryService.findById(id);
-        return unitOfMeasureModelAssembler.toModel(unitOfMeasure.orElseThrow(() -> new UnitOfMeasureNotFoundException(id)));
+	public ResponseEntity<EntityModel<UnitOfMeasureDTO>> getUnitOfMeasure(@PathVariable Long id) {
+		return ResponseEntity.ok(unitOfMeasureModelAssembler.toModel(unitOfMeasureService.findById(id)));
 	}
 
-	@GetMapping("/units_of_measure/name/{name}")
-	public EntityModel<UnitOfMeasure> getUnitOfMeasure(@PathVariable String name) {
-		var unitOfMeasure = unitOfMeasureRepositoryService.findByName(name);
-		return unitOfMeasureModelAssembler.toModel(unitOfMeasure.orElseThrow(() -> new UnitOfMeasureNotFoundException(name)));
+	@GetMapping(path = "/units_of_measure", params = {"name"})
+	public ResponseEntity<EntityModel<UnitOfMeasureDTO>> getUnitOfMeasure(@RequestParam String name) {
+		return ResponseEntity.ok(unitOfMeasureModelAssembler.toModel(unitOfMeasureService.findByName(name)));
 	}
 
 	@PostMapping("/units_of_measure")
-	public ResponseEntity<?> create(@RequestBody UnitOfMeasure unitOfMeasure){
-		try {
-			var unitOfMeasureUpdatedModel = unitOfMeasureModelAssembler.toModel(unitOfMeasureRepositoryService.save(unitOfMeasure));
-			return ResponseEntity.created(unitOfMeasureUpdatedModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
-				.body(unitOfMeasureUpdatedModel);
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body("Insert error");
-		}
+	public ResponseEntity<EntityModel<UnitOfMeasureDTO>> create(@RequestBody @Valid UnitOfMeasureDTO unitOfMeasureDTO){
+		var entityModel = unitOfMeasureModelAssembler.toModel(unitOfMeasureService.create(unitOfMeasureDTO));
+		return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
 	}
 
 	@PutMapping("/units_of_measure/{id}")
-	public ResponseEntity<?> update(@RequestBody UnitOfMeasure unitOfMeasure, @PathVariable Long id){
-		unitOfMeasureRepositoryService.findById(id)
-			.orElseThrow(() -> new UnitOfMeasureNotFoundException(id));
-		try {
-			var unitOfMeasureUpdatedModel = unitOfMeasureModelAssembler.toModel(unitOfMeasureRepositoryService.save(unitOfMeasure));
-			return ResponseEntity.created(unitOfMeasureUpdatedModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
-				.body(unitOfMeasureUpdatedModel);
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body("Update error");
-		}
+	public ResponseEntity<EntityModel<UnitOfMeasureDTO>> update(@RequestBody @Valid UnitOfMeasureDTO unitOfMeasureDTO, @PathVariable Long id){
+		var entityModel = unitOfMeasureModelAssembler.toModel(unitOfMeasureService.update(unitOfMeasureDTO, id));
+		return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
 	}
 
 	@DeleteMapping("/units_of_measure/{id}")
-	public ResponseEntity<?> delete(@PathVariable Long id){
-		unitOfMeasureRepositoryService.deleteById(id);
+	public ResponseEntity<Void> delete(@PathVariable Long id){
+		unitOfMeasureService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 }

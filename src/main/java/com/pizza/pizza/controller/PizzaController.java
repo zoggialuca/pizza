@@ -5,12 +5,12 @@ import java.util.stream.Collectors;
 
 import com.pizza.pizza.assembler.PizzaIngredientModelAssembler;
 import com.pizza.pizza.assembler.PizzaModelAssembler;
-import com.pizza.pizza.exception.PizzaNotFoundException;
-import com.pizza.pizza.model.Pizza;
-import com.pizza.pizza.model.PizzaIngredient;
-import com.pizza.pizza.service.PizzaIngredientRepositoryService;
-import com.pizza.pizza.service.PizzaRepositoryService;
+import com.pizza.pizza.dto.PizzaDTO;
+import com.pizza.pizza.dto.PizzaIngredientDTO;
+import com.pizza.pizza.service.PizzaIngredientService;
+import com.pizza.pizza.service.PizzaService;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
@@ -28,70 +27,59 @@ import org.springframework.http.ResponseEntity;
 
 @RestController
 @CrossOrigin("*")
+@RequiredArgsConstructor
 public class PizzaController {
 
-	@Autowired private PizzaRepositoryService pizzaRepositoryService;
-	@Autowired private PizzaModelAssembler pizzaModelAssembler;
-	@Autowired private PizzaIngredientRepositoryService pizzaIngredientRepositoryService;
-	@Autowired private PizzaIngredientModelAssembler pizzaIngredientModelAssembler;
+	private final PizzaService pizzaService;
+	private final PizzaModelAssembler pizzaModelAssembler;
+	private final PizzaIngredientService pizzaIngredientService;
+	private final PizzaIngredientModelAssembler pizzaIngredientModelAssembler;
 
 	@GetMapping("/pizzas")
-	public CollectionModel<EntityModel<Pizza>> getPizzas() {
-		var pizzas = pizzaRepositoryService.findAll();
-		return CollectionModel.of(pizzas.stream().map(pizzaModelAssembler::toModel).collect(Collectors.toList()));
+	public ResponseEntity<CollectionModel<EntityModel<PizzaDTO>>> getPizzas() {
+		var pizzas = pizzaService.findAll();
+		return ResponseEntity.ok(CollectionModel.of(pizzas.stream().map(pizzaModelAssembler::toModel).collect(Collectors.toList())));
 	}
 
 	@GetMapping("/pizzas/{id}")
-	public EntityModel<Pizza> getPizza(@PathVariable Long id) {
-		var pizza = pizzaRepositoryService.findById(id);
-		return pizzaModelAssembler.toModel(pizza.orElseThrow(() -> new PizzaNotFoundException(id)));
+	public ResponseEntity<EntityModel<PizzaDTO>> getPizza(@PathVariable Long id) {
+		return ResponseEntity.ok(pizzaModelAssembler.toModel(pizzaService.findById(id)));
 	}
 
-	@GetMapping(path = "/pizzas", params = "name")
-	public EntityModel<Pizza> getPizza(@RequestParam String name) {
-		var pizza = pizzaRepositoryService.findByName(name);
-		return pizzaModelAssembler.toModel(pizza.orElseThrow(() -> new PizzaNotFoundException(name)));
+	@GetMapping(path = "/pizzas", params = {"name"})
+	public ResponseEntity<EntityModel<PizzaDTO>> getPizza(@RequestParam String name) {
+		return ResponseEntity.ok(pizzaModelAssembler.toModel(pizzaService.findByName(name)));
 	}
 
-	@GetMapping(path = "/pizzas", params = "isVegetarian")
-	public CollectionModel<EntityModel<Pizza>> getPizzas(@RequestParam(required = false) boolean isVegetarian) {
-		var pizzas = pizzaRepositoryService.findByIsVegetarian(Optional.of(Boolean.valueOf(isVegetarian)));
-		return CollectionModel.of(pizzas.stream().map(pizzaModelAssembler::toModel).collect(Collectors.toList()));
+	@GetMapping(path = "/pizzas", params = {"isVegetarian"})
+	public ResponseEntity<CollectionModel<EntityModel<PizzaDTO>>> getPizzas(@RequestParam(required = false) boolean isVegetarian) {
+		var pizzas = pizzaService.findByIsVegetarian(isVegetarian);
+		return ResponseEntity.ok(CollectionModel.of(pizzas.stream().map(pizzaModelAssembler::toModel).collect(Collectors.toList())));
 	}
 
 	@GetMapping("/pizzas/{pizzaId}/ingredients")
-	public CollectionModel<EntityModel<PizzaIngredient>> getPizzaIngredients(@PathVariable Long pizzaId) {
-		var pizzaIngredients = pizzaIngredientRepositoryService.findByPizzaId(pizzaId);
+	public CollectionModel<EntityModel<PizzaIngredientDTO>> getPizzaIngredients(@PathVariable Long pizzaId) {
+		var pizzaIngredients = pizzaIngredientService.findByPizzaId(pizzaId);
 		return CollectionModel.of(pizzaIngredients.stream().map(pizzaIngredientModelAssembler::toModel).collect(Collectors.toList()));
 	}
 
 	@PostMapping("/pizzas")
-	public ResponseEntity<?> create(@RequestBody Pizza pizza){
-		try {
-			var pizzaUpdatedModel = pizzaModelAssembler.toModel(pizzaRepositoryService.save(pizza));
-			return ResponseEntity.created(pizzaUpdatedModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
-				.body(pizzaUpdatedModel);
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body("Insert error");
-		}
+	public ResponseEntity<EntityModel<PizzaDTO>> create(@RequestBody PizzaDTO pizzaDTO){
+		var entityModel = pizzaModelAssembler.toModel(pizzaService.create(pizzaDTO));
+		return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+				.body(entityModel);
 	}
 
 	@PutMapping("/pizzas/{id}")
-	public ResponseEntity<?> update(@RequestBody Pizza pizza, @PathVariable Long id){
-		pizzaRepositoryService.findById(id)
-			.orElseThrow(() -> new PizzaNotFoundException(id));
-		try {
-			var pizzaUpdatedModel = pizzaModelAssembler.toModel(pizzaRepositoryService.save(pizza));
-			return ResponseEntity.created(pizzaUpdatedModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
-				.body(pizzaUpdatedModel);
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body("Update error");
-		}
+	public ResponseEntity<EntityModel<PizzaDTO>> update(@RequestBody PizzaDTO pizzaDTO, @PathVariable Long id){
+		var entityModel = pizzaModelAssembler.toModel(pizzaService.update(pizzaDTO, id));
+		return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+				.body(entityModel);
 	}
 
 	@DeleteMapping("/pizzas/{id}")
-	public ResponseEntity<?> delete(@PathVariable Long id){
-		pizzaRepositoryService.deleteById(id);
+	public ResponseEntity<Void> delete(@PathVariable Long id){
+		pizzaService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 }

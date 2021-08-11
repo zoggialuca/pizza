@@ -14,7 +14,7 @@ public class IngredientNotFoundControllerAdvice {
     @ResponseBody
     @ExceptionHandler(IngredientNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String ingredientNotFoundExceptionHandler(IngredientNotFoundException ingredientNotFoundException){
+    String handleIngredientNotFoundException(IngredientNotFoundException ingredientNotFoundException){
         return ingredientNotFoundException.getMessage();
     }
 }

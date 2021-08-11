@@ -2,9 +2,9 @@ package com.pizza.pizza.model;
 
 import lombok.*;
 import org.hibernate.Hibernate;
-import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 @Entity
@@ -12,17 +12,18 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="unit_of_measure"
     , uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})}
 )
-public class UnitOfMeasure extends RepresentationModel<UnitOfMeasure>{
+public class UnitOfMeasure{
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    private final @NonNull String name;
 
-    protected UnitOfMeasure(){
-        this("");
-    }
+    @Column(nullable = false)
+    @NotBlank
+    @NonNull
+    private String name;
 
     @Override
     public boolean equals(Object o) {

@@ -14,7 +14,7 @@ public class PizzaNotFoundControllerAdvice {
     @ResponseBody
     @ExceptionHandler(PizzaNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String pizzaNotFoundExceptionHandler(PizzaNotFoundException pizzaNotFoundException){
+    String handlePizzaNotFoundException(PizzaNotFoundException pizzaNotFoundException){
         return pizzaNotFoundException.getMessage();
     }
 }

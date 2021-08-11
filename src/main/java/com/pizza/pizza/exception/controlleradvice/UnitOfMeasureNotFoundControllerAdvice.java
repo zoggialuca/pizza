@@ -14,7 +14,7 @@ public class UnitOfMeasureNotFoundControllerAdvice {
     @ResponseBody
     @ExceptionHandler(UnitOfMeasureNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String unitOfMeasureNotFoundExceptionHandler(UnitOfMeasureNotFoundException pizzaNotFoundException){
+    String handleUnitOfMeasureNotFoundException(UnitOfMeasureNotFoundException pizzaNotFoundException){
         return pizzaNotFoundException.getMessage();
     }
 }

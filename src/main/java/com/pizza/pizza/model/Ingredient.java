@@ -6,6 +6,7 @@ import org.hibernate.Hibernate;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 import java.util.Set;
 
@@ -14,21 +15,24 @@ import java.util.Set;
 @Setter
 @ToString
 @RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="ingredient"
     , uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})}
 )
 public class Ingredient extends RepresentationModel<Ingredient>{
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    private final @NonNull String name;
+
+    @Column(nullable = false) //DB level validation
+    @NotBlank
+    @NonNull //even if I have used the validation annotation @NotBlank, I need the @NonNull in order to have the constructor
+    private String name;
+
+    private String notes;
 
     @OneToMany(mappedBy = "ingredient") @ToString.Exclude @EqualsAndHashCode.Exclude
     @JsonIgnore
     Set<PizzaIngredient> pizzaIngredients;
-
-    protected Ingredient(){
-        this("");
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -5,6 +5,7 @@ import org.hibernate.Hibernate;
 import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -20,12 +21,16 @@ public class PizzaIngredient extends RepresentationModel<PizzaIngredient>{
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "pizza")
-    private final @NonNull Pizza pizza;
+    @JoinColumn(name = "pizza", nullable = false)
+    @NotNull
+    @NonNull
+    private final Pizza pizza;
 
     @ManyToOne
-    @JoinColumn(name = "ingredient")
-    private final @NonNull Ingredient ingredient;
+    @JoinColumn(name = "ingredient", nullable = false)
+    @NotNull
+    @NonNull
+    private final Ingredient ingredient;
 
     private Double quantity;
 
