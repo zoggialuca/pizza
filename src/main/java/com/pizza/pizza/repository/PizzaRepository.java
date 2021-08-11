@@ -9,5 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PizzaRepository extends JpaRepository<Pizza, Long>{
     Optional<Pizza> findByName(String name);
-    List<Pizza> findByIsVegetarian(Optional<Boolean> isVegetarian);
+    List<Pizza> findByIsVegetarian(boolean isVegetarian);
 }
