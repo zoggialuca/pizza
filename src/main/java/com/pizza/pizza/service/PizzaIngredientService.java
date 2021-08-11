@@ -11,6 +11,7 @@ import com.pizza.pizza.repository.UnitOfMeasureRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,12 +37,13 @@ public class PizzaIngredientService {
                 .orElse(null);
     }
 
+    @Transactional
     public PizzaIngredientDTO update(PizzaIngredientDTO pizzaIngredientDTO, Long id) {
         var pizzaName = pizzaIngredientDTO.getPizzaDTO().getName();
         var pizza = pizzaRepository.findByName(pizzaName)
                 .orElseThrow(() -> new PizzaNotFoundException(pizzaName));
 
-        var ingredientName = pizzaIngredientDTO.getPizzaDTO().getName();
+        var ingredientName = pizzaIngredientDTO.getIngredientDTO().getName();
         var ingredient = ingredientRepository.findByName(ingredientName)
                 .orElseThrow(() -> new IngredientNotFoundException(ingredientName));
 

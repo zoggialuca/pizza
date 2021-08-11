@@ -6,7 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.hateoas.RepresentationModel;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -22,7 +22,7 @@ public class PizzaIngredientDTO extends RepresentationModel<PizzaIngredientDTO> 
     @NotNull
     private IngredientDTO ingredientDTO;
 
-    @NotBlank
+    @DecimalMin(value = "0.0", inclusive = false)
     private Double quantity;
 
     @NotNull
