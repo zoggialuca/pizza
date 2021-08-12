@@ -1,5 +1,6 @@
 package com.pizza.pizza.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,7 @@ public class PizzaIngredientResponseDTO extends RepresentationModel<PizzaIngredi
     private Long id;
 
     @NotNull
+    @JsonProperty("pizza")
     private PizzaDTO pizzaDTO;
 
     @NotNull
