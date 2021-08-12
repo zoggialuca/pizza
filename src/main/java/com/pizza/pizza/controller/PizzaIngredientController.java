@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = {"${settings.cors_origin}"})
 @RequiredArgsConstructor
 public class PizzaIngredientController {
     

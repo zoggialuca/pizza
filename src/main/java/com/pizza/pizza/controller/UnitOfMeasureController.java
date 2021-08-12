@@ -14,7 +14,6 @@ import javax.validation.Valid;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin(origins = {"${settings.cors_origin}"})
 @RequiredArgsConstructor
 public class UnitOfMeasureController {
 
