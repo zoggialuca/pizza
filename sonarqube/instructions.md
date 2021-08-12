@@ -10,5 +10,5 @@ Most important thing is that it will generate the **token** that you should stor
 
 ## Execute the analysis
 From the main folder ogf the project, run the command  
-`./gradlew sonarqube -D'sonar.projectKey=pizza' -D'sonar.host.url=http://localhost:9000' -D'<TOKEN>'`  
+`./gradlew sonarqube -D'sonar.projectKey=pizza' -D'sonar.host.url=http://localhost:9000' -D'sonar.login=<TOKEN>'`  
 where `<TOKEN>` is the generated token
