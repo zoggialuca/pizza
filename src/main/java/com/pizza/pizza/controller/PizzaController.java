@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = {"${settings.cors_origin}"})
 @RequiredArgsConstructor
 public class PizzaController {
 
