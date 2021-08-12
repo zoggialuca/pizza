@@ -39,7 +39,7 @@ public class PizzaIngredient extends RepresentationModel<PizzaIngredient>{
     private UnitOfMeasure unitOfMeasure;
 
     protected PizzaIngredient(){
-        this(null, null);
+        this(new Pizza(), new Ingredient());
     }
 
     @Override
