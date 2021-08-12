@@ -1,6 +1,7 @@
 package com.pizza.pizza.service;
 
-import com.pizza.pizza.converter.Converter;
+import com.pizza.pizza.converter.DTOToEntityConverter;
+import com.pizza.pizza.converter.EntityToDTOConverter;
 import com.pizza.pizza.dto.PizzaIngredientRequestDTO;
 import com.pizza.pizza.dto.PizzaIngredientResponseDTO;
 import com.pizza.pizza.exception.*;
@@ -19,8 +20,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class PizzaIngredientService {
-    private final Converter<PizzaIngredient, PizzaIngredientRequestDTO> requestConverter;
-    private final Converter<PizzaIngredient, PizzaIngredientResponseDTO> responseConverter;
+    private final DTOToEntityConverter<PizzaIngredientRequestDTO, PizzaIngredient> requestDTOToEntityConverter;
+    private final EntityToDTOConverter<PizzaIngredient, PizzaIngredientResponseDTO> entityToResponseDTOConverter;
     private final PizzaIngredientRepository pizzaIngredientRepository;
     private final PizzaRepository pizzaRepository;
     private final IngredientRepository ingredientRepository;
@@ -28,14 +29,14 @@ public class PizzaIngredientService {
 
     public PizzaIngredientResponseDTO findById(Long id) {
         return pizzaIngredientRepository.findById(id)
-                .map(responseConverter::toDTO)
+                .map(entityToResponseDTOConverter::toDTO)
                 .orElseThrow(() -> new IngredientNotFoundException(id));
     }
 
     public PizzaIngredientResponseDTO create(PizzaIngredientRequestDTO pizzaIngredientRequestDTO) {
-        var ingredient = requestConverter.toOptionalEntity(pizzaIngredientRequestDTO);
+        var ingredient = requestDTOToEntityConverter.toOptionalEntity(pizzaIngredientRequestDTO);
         return ingredient.map(pizzaIngredientRepository::save)
-                .map(responseConverter::toDTO)
+                .map(entityToResponseDTOConverter::toDTO)
                 .orElse(null);
     }
 
@@ -72,7 +73,7 @@ public class PizzaIngredientService {
 
         pizzaIngredient.setQuantity(pizzaIngredientRequestDTO.getQuantity());
         pizzaIngredient.setUnitOfMeasure(unitOfMeasure);
-        return responseConverter.toDTO(pizzaIngredientRepository.save(pizzaIngredient));
+        return entityToResponseDTOConverter.toDTO(pizzaIngredientRepository.save(pizzaIngredient));
     }
 
     public void delete(Long id) {
@@ -81,7 +82,7 @@ public class PizzaIngredientService {
 
     public List<PizzaIngredientResponseDTO> findByPizzaId(Long pizzaId) {
         return pizzaIngredientRepository.findByPizzaId(pizzaId).stream()
-                .map(responseConverter::toDTO)
+                .map(entityToResponseDTOConverter::toDTO)
                 .collect(Collectors.toList());
     }
 }

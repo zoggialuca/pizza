@@ -1,7 +1,6 @@
 package com.pizza.pizza.converter;
 
 import com.pizza.pizza.dto.PizzaIngredientRequestDTO;
-import com.pizza.pizza.dto.PizzaIngredientResponseDTO;
 import com.pizza.pizza.exception.IngredientNotFoundException;
 import com.pizza.pizza.exception.PizzaNotFoundException;
 import com.pizza.pizza.exception.UnitOfMeasureNotFoundException;
@@ -16,26 +15,11 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class PizzaIngredientRequestConverter implements Converter<PizzaIngredient, PizzaIngredientRequestDTO>{
+public class PizzaIngredientRequestEntityDTOBidirectionalConverter implements DTOToEntityConverter<PizzaIngredientRequestDTO, PizzaIngredient> {
 
     private final PizzaRepository pizzaRepository;
     private final IngredientRepository ingredientRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
-
-    @Override
-    public PizzaIngredientRequestDTO toDTO(PizzaIngredient pizzaIngredient) {
-        if (pizzaIngredient == null) {
-            return null;
-        }
-
-        var pizzaIngredientRequestDTO = new PizzaIngredientRequestDTO();
-        pizzaIngredientRequestDTO.setId(pizzaIngredient.getId());
-        pizzaIngredientRequestDTO.setPizzaId(pizzaIngredient.getPizza().getId());
-        pizzaIngredientRequestDTO.setIngredientId(pizzaIngredient.getIngredient().getId());
-        pizzaIngredientRequestDTO.setQuantity(pizzaIngredient.getQuantity());
-        pizzaIngredientRequestDTO.setUnitOfMeasureId(pizzaIngredient.getUnitOfMeasure().getId());
-        return pizzaIngredientRequestDTO;
-    }
 
     @Override
     public Optional<PizzaIngredient> toOptionalEntity(PizzaIngredientRequestDTO pizzaIngredientRequestDTO) {

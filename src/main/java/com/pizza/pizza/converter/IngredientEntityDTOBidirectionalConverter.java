@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class IngredientConverter implements Converter<Ingredient, IngredientDTO> {
+public class IngredientEntityDTOBidirectionalConverter implements EntityDTOBidirectionalConverter<Ingredient, IngredientDTO> {
     @Override
     public IngredientDTO toDTO(Ingredient ingredient) {
         if (ingredient == null) {

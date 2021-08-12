@@ -1,17 +1,16 @@
 package com.pizza.pizza;
 
-import java.util.Arrays;
-
 import com.pizza.pizza.repository.IngredientRepository;
 import com.pizza.pizza.repository.PizzaRepository;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.CommandLineRunner;
+
+import java.util.Arrays;
 
 @SpringBootApplication(exclude = {ErrorMvcAutoConfiguration.class})
 public class PizzaApplication {

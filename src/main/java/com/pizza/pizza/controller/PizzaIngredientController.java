@@ -3,20 +3,12 @@ package com.pizza.pizza.controller;
 import com.pizza.pizza.assembler.PizzaIngredientModelAssembler;
 import com.pizza.pizza.dto.PizzaIngredientRequestDTO;
 import com.pizza.pizza.dto.PizzaIngredientResponseDTO;
-
 import com.pizza.pizza.service.PizzaIngredientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin("*")

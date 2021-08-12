@@ -2,7 +2,6 @@ package com.pizza.pizza.converter;
 
 import java.util.Optional;
 
-public interface Converter<E, D> {
-    D toDTO(E entity);
+public interface DTOToEntityConverter<D, E> {
     Optional<E> toOptionalEntity(D dto);
 }
