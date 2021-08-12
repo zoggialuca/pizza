@@ -1,4 +1,4 @@
-package com.pizza.pizza;
+package com.pizza.pizza.service;
 
 import com.pizza.pizza.converter.DTOToEntityConverter;
 import com.pizza.pizza.converter.EntityToDTOConverter;
