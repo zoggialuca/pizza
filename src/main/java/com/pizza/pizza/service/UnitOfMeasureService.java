@@ -1,13 +1,12 @@
 package com.pizza.pizza.service;
 
-import com.pizza.pizza.converter.Converter;
+import com.pizza.pizza.converter.EntityDTOBidirectionalConverter;
 import com.pizza.pizza.dto.UnitOfMeasureDTO;
 import com.pizza.pizza.exception.UnitOfMeasureAlreadyExistsException;
 import com.pizza.pizza.exception.UnitOfMeasureNotFoundException;
 import com.pizza.pizza.model.UnitOfMeasure;
 import com.pizza.pizza.repository.UnitOfMeasureRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UnitOfMeasureService {
-    private final Converter<UnitOfMeasure, UnitOfMeasureDTO> converter;
+    private final EntityDTOBidirectionalConverter<UnitOfMeasure, UnitOfMeasureDTO> converter;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
 
     public List<UnitOfMeasureDTO> findAll() {

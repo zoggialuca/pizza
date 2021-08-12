@@ -2,14 +2,15 @@ package com.pizza.pizza.assembler;
 
 import com.pizza.pizza.controller.PizzaIngredientController;
 import com.pizza.pizza.dto.PizzaIngredientResponseDTO;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
 public class PizzaIngredientModelAssembler implements RepresentationModelAssembler<PizzaIngredientResponseDTO, EntityModel<PizzaIngredientResponseDTO>> {

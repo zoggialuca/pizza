@@ -1,6 +1,5 @@
 package com.pizza.pizza.exception.controlleradvice;
 
-import com.pizza.pizza.exception.IngredientAlreadyExistsException;
 import com.pizza.pizza.exception.PizzaAlreadyExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;

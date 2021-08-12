@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class PizzaConverter implements Converter<Pizza, PizzaDTO> {
+public class PizzaEntityDTOBidirectionalConverter implements EntityDTOBidirectionalConverter<Pizza, PizzaDTO> {
     @Override
     public PizzaDTO toDTO(Pizza pizza) {
         if (pizza == null){

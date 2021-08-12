@@ -1,6 +1,6 @@
 package com.pizza.pizza.service;
 
-import com.pizza.pizza.converter.Converter;
+import com.pizza.pizza.converter.EntityDTOBidirectionalConverter;
 import com.pizza.pizza.dto.IngredientDTO;
 import com.pizza.pizza.exception.IngredientAlreadyExistsException;
 import com.pizza.pizza.exception.IngredientNotFoundException;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class IngredientService {
-    private final Converter<Ingredient, IngredientDTO> converter;
+    private final EntityDTOBidirectionalConverter<Ingredient, IngredientDTO> converter;
     private final IngredientRepository ingredientRepository;
 
     public List<IngredientDTO> findAll() {

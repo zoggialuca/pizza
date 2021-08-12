@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class UnitOfMeasureConverter implements Converter<UnitOfMeasure, UnitOfMeasureDTO> {
+public class UnitOfMeasureEntityDTOBidirectionalConverter implements EntityDTOBidirectionalConverter<UnitOfMeasure, UnitOfMeasureDTO> {
     @Override
     public UnitOfMeasureDTO toDTO(UnitOfMeasure unitOfMeasure) {
         if (unitOfMeasure == null) {

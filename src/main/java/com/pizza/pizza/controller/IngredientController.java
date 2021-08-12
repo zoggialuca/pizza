@@ -1,10 +1,7 @@
 package com.pizza.pizza.controller;
 
-import java.util.stream.Collectors;
-
 import com.pizza.pizza.assembler.IngredientModelAssembler;
 import com.pizza.pizza.dto.IngredientDTO;
-
 import com.pizza.pizza.service.IngredientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
@@ -12,6 +9,8 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin("*")
