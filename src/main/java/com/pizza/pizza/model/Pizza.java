@@ -1,58 +1,50 @@
 package com.pizza.pizza.model;
 
-import java.util.Set;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import lombok.*;
+import org.hibernate.Hibernate;
 import org.springframework.hateoas.RepresentationModel;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NonNull;
-import lombok.ToString;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="pizza"
     , uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})}
 )
 public class Pizza extends RepresentationModel<Pizza>{
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    private final @NonNull String name;
-    private final @NonNull Boolean isVegetarian;
+
+    @Column(nullable = false) //DB level validation
+    @NotBlank //application level validation
+    @NonNull
+    private String name;
+
+    private boolean isVegetarian;
 
     @OneToMany(mappedBy = "pizza") @ToString.Exclude @EqualsAndHashCode.Exclude
     @JsonIgnore
     Set<PizzaIngredient> pizzaIngredients;
 
-    //necessary to run the demo
-    protected Pizza(){
-        this("");
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Pizza pizza = (Pizza) o;
+
+        return Objects.equals(id, pizza.id);
     }
 
-    //necessary to run the demo
-    public Pizza(Long id){
-        this();
-        this.id = id;
-    }
-
-    //necessary to run the demo
-    public Pizza(String name){
-        this(name, Boolean.FALSE);
-    }
-
-    //necessary to run the demo
-    public Pizza(String name, Boolean isVegetarian){
-        this.name = name;
-        this.isVegetarian = isVegetarian;
+    @Override
+    public int hashCode() {
+        return 2055526148;
     }
 }
