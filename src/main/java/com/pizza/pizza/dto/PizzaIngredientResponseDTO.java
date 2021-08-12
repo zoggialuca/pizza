@@ -6,14 +6,15 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode(callSuper = true)
+@Relation(collectionRelation = "pizzaIngredientList", itemRelation = "pizzaIngredient")
 public class PizzaIngredientResponseDTO extends RepresentationModel<PizzaIngredientResponseDTO> {
     private Long id;
 
@@ -22,11 +23,12 @@ public class PizzaIngredientResponseDTO extends RepresentationModel<PizzaIngredi
     private PizzaDTO pizzaDTO;
 
     @NotNull
+    @JsonProperty("ingredient")
     private IngredientDTO ingredientDTO;
 
-    @DecimalMin(value = "0.0", inclusive = false)
     private Double quantity;
 
     @NotNull
+    @JsonProperty("unitOfMeasure")
     private UnitOfMeasureDTO unitOfMeasureDTO;
 }
