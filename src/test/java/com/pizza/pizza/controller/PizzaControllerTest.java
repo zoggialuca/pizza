@@ -2,10 +2,13 @@ package com.pizza.pizza.controller;
 
 import com.pizza.pizza.dto.PizzaDTO;
 import com.pizza.pizza.repository.PizzaRepository;
+import io.restassured.common.mapper.TypeRef;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
 
 import java.util.List;
 
@@ -24,8 +27,10 @@ class PizzaControllerTest extends ControllerTest {
     @ParameterizedTest
     @MethodSource("getPizzasToCreate")
     void shouldCreatePizza(PizzaDTO pizzaDTO) {
-        var responseBody = request().body(pizzaDTO).post("/pizzas").then().statusCode(201).extract().body().asString();
-
+        var responseBody = request().body(pizzaDTO).post("/pizzas")
+                .then().statusCode(201).extract().body().as(new TypeRef<EntityModel<PizzaDTO>>() {
+        });
+        assertThat(responseBody.getContent()).extracting("name").isEqualTo(pizzaDTO.getName());
         assertThat(repository.count()).isNotZero();
     }
 
