@@ -15,25 +15,25 @@ import java.util.Arrays;
 @SpringBootApplication(exclude = {ErrorMvcAutoConfiguration.class})
 public class PizzaApplication {
 
-	private static final Logger logger = LoggerFactory.getLogger(PizzaApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(PizzaApplication.class);
 
-	public static void main(String[] args) {
-		SpringApplication.run(PizzaApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(PizzaApplication.class, args);
+    }
 
-	@Bean
-	public CommandLineRunner demo(PizzaRepository pizzaRepository, IngredientRepository ingredientRepository){
-		return args -> {
-			Arrays.asList("Margherita", "Capricciosa").forEach(name -> {
-				var pizza = pizzaRepository.findByName(name);
-				logger.info(String.format("Pizza %s exists? %s", name, !pizza.isEmpty()));
-			});
+    @Bean
+    public CommandLineRunner demo(PizzaRepository pizzaRepository, IngredientRepository ingredientRepository) {
+        return args -> {
+            Arrays.asList("Margherita", "Capricciosa").forEach(name -> {
+                var pizza = pizzaRepository.findByName(name);
+                logger.info(String.format("Pizza %s exists? %s", name, pizza.isPresent()));
+            });
 
-			Arrays.asList("Pomodoro", "Carciofo").forEach(name -> {
-				var ingredient = ingredientRepository.findByName(name);
-				logger.info(String.format("Ingrediente %s exists? %s", name, !ingredient.isEmpty()));
-			});
-		};
-	}
+            Arrays.asList("Pomodoro", "Carciofo").forEach(name -> {
+                var ingredient = ingredientRepository.findByName(name);
+                logger.info(String.format("Ingrediente %s exists? %s", name, ingredient.isPresent()));
+            });
+        };
+    }
 
 }
