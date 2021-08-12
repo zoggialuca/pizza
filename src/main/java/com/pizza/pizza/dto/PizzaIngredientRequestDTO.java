@@ -21,7 +21,6 @@ public class PizzaIngredientRequestDTO{
     @NotNull
     private Long ingredientId;
 
-    @DecimalMin(value = "0.0", inclusive = false)
     private Double quantity;
 
     @NotNull
