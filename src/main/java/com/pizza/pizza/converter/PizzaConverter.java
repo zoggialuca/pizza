@@ -1,10 +1,7 @@
 package com.pizza.pizza.converter;
 
-import com.pizza.pizza.dto.IngredientDTO;
 import com.pizza.pizza.dto.PizzaDTO;
-import com.pizza.pizza.dto.PizzaIngredientDTO;
 import com.pizza.pizza.model.Pizza;
-import com.pizza.pizza.model.PizzaIngredient;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;

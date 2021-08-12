@@ -1,12 +1,11 @@
 package com.pizza.pizza.controller;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.pizza.pizza.assembler.PizzaIngredientModelAssembler;
 import com.pizza.pizza.assembler.PizzaModelAssembler;
 import com.pizza.pizza.dto.PizzaDTO;
-import com.pizza.pizza.dto.PizzaIngredientDTO;
+import com.pizza.pizza.dto.PizzaIngredientResponseDTO;
 import com.pizza.pizza.service.PizzaIngredientService;
 import com.pizza.pizza.service.PizzaService;
 
@@ -58,7 +57,7 @@ public class PizzaController {
 	}
 
 	@GetMapping("/pizzas/{pizzaId}/ingredients")
-	public CollectionModel<EntityModel<PizzaIngredientDTO>> getPizzaIngredients(@PathVariable Long pizzaId) {
+	public CollectionModel<EntityModel<PizzaIngredientResponseDTO>> getPizzaIngredients(@PathVariable Long pizzaId) {
 		var pizzaIngredients = pizzaIngredientService.findByPizzaId(pizzaId);
 		return CollectionModel.of(pizzaIngredients.stream().map(pizzaIngredientModelAssembler::toModel).collect(Collectors.toList()));
 	}

@@ -1,7 +1,8 @@
 package com.pizza.pizza.service;
 
 import com.pizza.pizza.converter.Converter;
-import com.pizza.pizza.dto.PizzaIngredientDTO;
+import com.pizza.pizza.dto.PizzaIngredientRequestDTO;
+import com.pizza.pizza.dto.PizzaIngredientResponseDTO;
 import com.pizza.pizza.exception.*;
 import com.pizza.pizza.model.PizzaIngredient;
 import com.pizza.pizza.repository.IngredientRepository;
@@ -18,42 +19,43 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class PizzaIngredientService {
-    private final Converter<PizzaIngredient, PizzaIngredientDTO> converter;
+    private final Converter<PizzaIngredient, PizzaIngredientRequestDTO> requestConverter;
+    private final Converter<PizzaIngredient, PizzaIngredientResponseDTO> responseConverter;
     private final PizzaIngredientRepository pizzaIngredientRepository;
     private final PizzaRepository pizzaRepository;
     private final IngredientRepository ingredientRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
 
-    public PizzaIngredientDTO findById(Long id) {
+    public PizzaIngredientResponseDTO findById(Long id) {
         return pizzaIngredientRepository.findById(id)
-                .map(converter::toDTO)
+                .map(responseConverter::toDTO)
                 .orElseThrow(() -> new IngredientNotFoundException(id));
     }
 
-    public PizzaIngredientDTO create(PizzaIngredientDTO pizzaIngredientDTO) {
-        var ingredient = converter.toOptionalEntity(pizzaIngredientDTO);
+    public PizzaIngredientResponseDTO create(PizzaIngredientRequestDTO pizzaIngredientRequestDTO) {
+        var ingredient = requestConverter.toOptionalEntity(pizzaIngredientRequestDTO);
         return ingredient.map(pizzaIngredientRepository::save)
-                .map(converter::toDTO)
+                .map(responseConverter::toDTO)
                 .orElse(null);
     }
 
     @Transactional
-    public PizzaIngredientDTO update(PizzaIngredientDTO pizzaIngredientDTO, Long id) {
-        var pizzaName = pizzaIngredientDTO.getPizzaDTO().getName();
-        var pizza = pizzaRepository.findByName(pizzaName)
-                .orElseThrow(() -> new PizzaNotFoundException(pizzaName));
+    public PizzaIngredientResponseDTO update(PizzaIngredientRequestDTO pizzaIngredientRequestDTO, Long id) {
+        var pizzaId = pizzaIngredientRequestDTO.getPizzaId();
+        var pizza = pizzaRepository.findById(pizzaId)
+                .orElseThrow(() -> new PizzaNotFoundException(pizzaId));
 
-        var ingredientName = pizzaIngredientDTO.getIngredientDTO().getName();
-        var ingredient = ingredientRepository.findByName(ingredientName)
-                .orElseThrow(() -> new IngredientNotFoundException(ingredientName));
+        var ingredientId = pizzaIngredientRequestDTO.getIngredientId();
+        var ingredient = ingredientRepository.findById(ingredientId)
+                .orElseThrow(() -> new IngredientNotFoundException(ingredientId));
 
-        var pizzaIngredient = pizzaIngredientRepository.findByPizzaIdAndIngredientId(pizza.getId(), ingredient.getId())
-                .orElseGet(() -> pizzaIngredientRepository.findById(pizzaIngredientDTO.getId())
-                        .orElseThrow(() -> new PizzaIngredientNotFoundException(id))
+        var pizzaIngredient = pizzaIngredientRepository.findByPizzaIdAndIngredientId(pizzaId, ingredientId)
+                .orElseGet(() -> pizzaIngredientRepository.findById(pizzaIngredientRequestDTO.getId())
+                        .orElseThrow(() -> new PizzaIngredientNotFoundException(id)) //no (pizza, ingredient) couple and no record for the current id
                 );
         if (!pizzaIngredient.getId().equals(id)) {
             //we have an error if the couple already exists and is linked to another record
-            throw new PizzaIngredientAlreadyExistsException(pizzaName, ingredientName);
+            throw new PizzaIngredientAlreadyExistsException(pizzaId, ingredientId);
         }
 
         if (!(pizzaIngredient.getPizza().getId().equals(pizza.getId())
@@ -64,22 +66,22 @@ public class PizzaIngredientService {
             pizzaIngredient = new PizzaIngredient(pizza, ingredient);
         }
 
-        var unitOfMeasureName = pizzaIngredientDTO.getUnitOfMeasureDTO().getName();
-        var unitOfMeasure = unitOfMeasureRepository.findByName(unitOfMeasureName)
-                .orElseThrow(() -> new UnitOfMeasureNotFoundException(unitOfMeasureName));
+        var unitOfMeasureID = pizzaIngredientRequestDTO.getUnitOfMeasureId();
+        var unitOfMeasure = unitOfMeasureRepository.findById(unitOfMeasureID)
+                .orElseThrow(() -> new UnitOfMeasureNotFoundException(unitOfMeasureID));
 
-        pizzaIngredient.setQuantity(pizzaIngredientDTO.getQuantity());
+        pizzaIngredient.setQuantity(pizzaIngredientRequestDTO.getQuantity());
         pizzaIngredient.setUnitOfMeasure(unitOfMeasure);
-        return converter.toDTO(pizzaIngredientRepository.save(pizzaIngredient));
+        return responseConverter.toDTO(pizzaIngredientRepository.save(pizzaIngredient));
     }
 
     public void delete(Long id) {
         pizzaIngredientRepository.deleteById(id);
     }
 
-    public List<PizzaIngredientDTO> findByPizzaId(Long pizzaId) {
+    public List<PizzaIngredientResponseDTO> findByPizzaId(Long pizzaId) {
         return pizzaIngredientRepository.findByPizzaId(pizzaId).stream()
-                .map(converter::toDTO)
+                .map(responseConverter::toDTO)
                 .collect(Collectors.toList());
     }
 }
