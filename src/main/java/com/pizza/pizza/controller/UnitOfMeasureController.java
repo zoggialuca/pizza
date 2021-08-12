@@ -14,7 +14,6 @@ import javax.validation.Valid;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin("*")
 @RequiredArgsConstructor
 public class UnitOfMeasureController {
 
