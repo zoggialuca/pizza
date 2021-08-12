@@ -1,40 +1,41 @@
 package com.pizza.pizza.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import lombok.*;
+import org.hibernate.Hibernate;
 
-import org.springframework.hateoas.RepresentationModel;
-
-import lombok.Data;
-import lombok.NonNull;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.util.Objects;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="unit_of_measure"
     , uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})}
 )
-public class UnitOfMeasure extends RepresentationModel<UnitOfMeasure>{
+public class UnitOfMeasure{
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    private final @NonNull String name;
-    
-    //necessary to run the demo
-    protected UnitOfMeasure(){
-        this.name = "";
+
+    @Column(nullable = false)
+    @NotBlank
+    @NonNull
+    private String name;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        UnitOfMeasure that = (UnitOfMeasure) o;
+
+        return Objects.equals(id, that.id);
     }
 
-    //necessary to run the demo
-    protected UnitOfMeasure(Long id){
-        this();
-        this.id = id;
-    }
-
-    //necessary to run the demo
-    public UnitOfMeasure(String name){
-        this.name = name;
+    @Override
+    public int hashCode() {
+        return 1493657823;
     }
 }

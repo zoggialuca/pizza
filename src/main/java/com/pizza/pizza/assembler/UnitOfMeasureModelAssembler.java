@@ -1,21 +1,22 @@
 package com.pizza.pizza.assembler;
 
 import com.pizza.pizza.controller.UnitOfMeasureController;
-import com.pizza.pizza.model.UnitOfMeasure;
-
+import com.pizza.pizza.dto.UnitOfMeasureDTO;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class UnitOfMeasureModelAssembler implements RepresentationModelAssembler<UnitOfMeasure, EntityModel<UnitOfMeasure>> {
+public class UnitOfMeasureModelAssembler implements RepresentationModelAssembler<UnitOfMeasureDTO, EntityModel<UnitOfMeasureDTO>> {
     
     @Override
-    public EntityModel<UnitOfMeasure> toModel(UnitOfMeasure unitOfMeasure){
-        return EntityModel.of(unitOfMeasure
-            , linkTo(methodOn(UnitOfMeasureController.class).getUnitOfMeasure(unitOfMeasure.getId())).withSelfRel()
-            , linkTo(methodOn(UnitOfMeasureController.class).getUnitOfMeasures()).withRel("unitOfMeasures")
+    public EntityModel<UnitOfMeasureDTO> toModel(UnitOfMeasureDTO unitOfMeasureDTO){
+        return EntityModel.of(unitOfMeasureDTO
+            , linkTo(methodOn(UnitOfMeasureController.class).getUnitOfMeasure(unitOfMeasureDTO.getId())).withSelfRel()
+            , linkTo(methodOn(UnitOfMeasureController.class).getUnitsOfMeasures()).withRel("unitOfMeasures")
             );
     }
 }

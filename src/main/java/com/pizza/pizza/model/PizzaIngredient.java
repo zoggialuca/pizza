@@ -1,21 +1,18 @@
 package com.pizza.pizza.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-
+import lombok.*;
+import org.hibernate.Hibernate;
 import org.springframework.hateoas.RepresentationModel;
 
-import lombok.Data;
-import lombok.NonNull;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Table(name="pizza_ingredient"
     , uniqueConstraints = {@UniqueConstraint(columnNames = {"pizza", "ingredient"})}    
 )
@@ -24,12 +21,16 @@ public class PizzaIngredient extends RepresentationModel<PizzaIngredient>{
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "pizza")
-    private final @NonNull Pizza pizza;
+    @JoinColumn(name = "pizza", nullable = false)
+    @NotNull
+    @NonNull
+    private final Pizza pizza;
 
     @ManyToOne
-    @JoinColumn(name = "ingredient")
-    private final @NonNull Ingredient ingredient;
+    @JoinColumn(name = "ingredient", nullable = false)
+    @NotNull
+    @NonNull
+    private final Ingredient ingredient;
 
     private Double quantity;
 
@@ -37,14 +38,21 @@ public class PizzaIngredient extends RepresentationModel<PizzaIngredient>{
     @JoinColumn(name = "unit_of_measure")
     private UnitOfMeasure unitOfMeasure;
 
-    //necessary to run the demo
     protected PizzaIngredient(){
-        this(null, null);
+        this(new Pizza(), new Ingredient());
     }
 
-    //necessary to run the demo
-    public PizzaIngredient(Pizza pizza, Ingredient ingredient){
-        this.pizza = pizza;
-        this.ingredient = ingredient;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        PizzaIngredient that = (PizzaIngredient) o;
+
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 672714343;
     }
 }
