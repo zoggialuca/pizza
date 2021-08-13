@@ -1,6 +1,8 @@
 plugins {
-	id 'org.springframework.boot' version '2.5.2'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+//	id 'org.springframework.boot' version '2.5.2'
+//	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'org.springframework.boot' version '2.3.4.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 	id 'java'
 	id "org.sonarqube" version "3.3"
 }
@@ -26,6 +28,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 	implementation 'io.springfox:springfox-bean-validators:3.0.0'
+	implementation 'org.liquibase:liquibase-core'
+//	implementation 'org.liquibase.ext:liquibase-hibernate5:4.4.3'
 	implementation 'org.projectlombok:lombok'
 	runtimeOnly 'mysql:mysql-connector-java'
 	runtimeOnly 'com.h2database:h2'

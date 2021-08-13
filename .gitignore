@@ -39,3 +39,5 @@ out/
 #sonarqube
 /sonarqube/*
 !/sonarqube/instructions.md
+
+/.jpb/
