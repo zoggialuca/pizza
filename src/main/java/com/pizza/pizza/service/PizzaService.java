@@ -50,7 +50,7 @@ public class PizzaService {
         }
         return pizzaRepository.findById(id)
                 .map(pizza -> {
-                    pizza.setVegetarian(pizzaDTO.isVegetarian());
+                    pizza.setIsVegetarian(pizzaDTO.isVegetarian());
                     return pizzaRepository.save(pizza);
                 })
                 .map(converter::toDTO)

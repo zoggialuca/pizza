@@ -17,7 +17,7 @@ public class PizzaEntityDTOBidirectionalConverter implements EntityDTOBidirectio
         var pizzaDTO = new PizzaDTO();
         pizzaDTO.setId(pizza.getId());
         pizzaDTO.setName(pizza.getName());
-        pizzaDTO.setVegetarian(pizza.isVegetarian());
+        pizzaDTO.setVegetarian(pizza.getIsVegetarian());
         return pizzaDTO;
     }
 
@@ -28,7 +28,7 @@ public class PizzaEntityDTOBidirectionalConverter implements EntityDTOBidirectio
         }
 
         var pizza = new Pizza(pizzaDTO.getName());
-        pizza.setVegetarian(pizzaDTO.isVegetarian());
+        pizza.setIsVegetarian(pizzaDTO.isVegetarian());
         pizza.setId(pizzaDTO.getId());
         return Optional.of(pizza);
     }

@@ -7,13 +7,13 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
-@Entity
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="abc")
+//@Entity
+//@Getter
+//@Setter
+//@ToString
+//@RequiredArgsConstructor
+//@NoArgsConstructor(access = AccessLevel.PROTECTED)
+//@Table(name="abc")
 public class ABC {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

@@ -28,7 +28,9 @@ public class Pizza extends RepresentationModel<Pizza>{
     @NonNull
     private String name;
 
-    private boolean isVegetarian;
+    private Boolean isVegetarian;
+
+    private Double price;
 
     @OneToMany(mappedBy = "pizza") @ToString.Exclude @EqualsAndHashCode.Exclude
     @JsonIgnore

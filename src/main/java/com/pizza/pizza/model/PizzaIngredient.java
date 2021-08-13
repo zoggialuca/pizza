@@ -24,19 +24,19 @@ public class PizzaIngredient extends RepresentationModel<PizzaIngredient>{
     @JoinColumn(name = "pizza", nullable = false)
     @NotNull
     @NonNull
-    private final Pizza pizza;
+    private Pizza pizza;
 
     @ManyToOne
     @JoinColumn(name = "ingredient", nullable = false)
     @NotNull
     @NonNull
-    private final Ingredient ingredient;
-
-    private Double quantity;
+    private Ingredient ingredient;
 
     @ManyToOne(targetEntity = UnitOfMeasure.class)
     @JoinColumn(name = "unit_of_measure")
     private UnitOfMeasure unitOfMeasure;
+
+    private Double quantity;
 
     protected PizzaIngredient(){
         this(new Pizza(), new Ingredient());

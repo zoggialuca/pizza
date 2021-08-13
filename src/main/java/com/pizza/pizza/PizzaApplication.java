@@ -24,7 +24,7 @@ public class PizzaApplication {
     @Bean
     public CommandLineRunner demo(PizzaRepository pizzaRepository, IngredientRepository ingredientRepository) {
         return args -> {
-            Arrays.asList("Margherita", "Capricciosa").forEach(name -> {
+            Arrays.asList("Margherita", "Capricciosa", "Something").forEach(name -> {
                 var pizza = pizzaRepository.findByName(name);
                 logger.info(String.format("Pizza %s exists? %s", name, pizza.isPresent()));
             });
