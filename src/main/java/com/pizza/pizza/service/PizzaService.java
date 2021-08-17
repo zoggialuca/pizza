@@ -8,9 +8,11 @@ import com.pizza.pizza.exception.PizzaNotFoundException;
 import com.pizza.pizza.model.Pizza;
 import com.pizza.pizza.repository.PizzaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,7 +22,7 @@ public class PizzaService {
     private final PizzaRepository pizzaRepository;
 
     public List<PizzaDTO> findAll() {
-        return pizzaRepository.findAll().stream().map(converter::toDTO)
+        return pizzaRepository.findAll(PageRequest.of(new Random().nextInt(20), 50)).stream().map(converter::toDTO)
                 .collect(Collectors.toList());
     }
 
