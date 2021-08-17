@@ -1,0 +1,8 @@
+plugins {
+    id 'io.gatling.gradle' version '3.6.1'
+}
+
+gatling {
+    logLevel = 'WARN'
+    logHttp = 'NONE'
+}

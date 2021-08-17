@@ -6,9 +6,11 @@ plugins {
     id 'org.liquibase.gradle' version '2.0.3'
 }
 
-group = 'com.pizza'
-version = '0.0.1'
-sourceCompatibility = '11'
+allprojects {
+	group = 'com.pizza'
+	version = '0.0.1'
+	sourceCompatibility = '11'
+}
 
 configurations {
     compileOnly.extendsFrom annotationProcessor

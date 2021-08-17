@@ -8,9 +8,11 @@ import com.pizza.pizza.exception.PizzaNotFoundException;
 import com.pizza.pizza.model.Pizza;
 import com.pizza.pizza.repository.PizzaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,6 +23,11 @@ public class PizzaService {
 
     public List<PizzaDTO> findAll() {
         return pizzaRepository.findAll().stream().map(converter::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<PizzaDTO> findAll(int pageNo, int pageSize) {
+        return pizzaRepository.findAll(PageRequest.of(pageNo, pageSize)).stream().map(converter::toDTO)
                 .collect(Collectors.toList());
     }
 
