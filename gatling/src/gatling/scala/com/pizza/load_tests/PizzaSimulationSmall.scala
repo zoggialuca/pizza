@@ -9,7 +9,8 @@ import scala.util.Random
 
 class PizzaSimulationSmall extends Simulation {
 
-  private val newPizzaNameFeeder = Iterator.continually(Map("pizzaName" -> (Random.alphanumeric.take(20).mkString)))
+  private val newPizzaNameFeeder = Iterator.continually(Map("pizzaName" -> Random.alphanumeric.take(20).mkString))
+  private val pizzaPageFeeder = Iterator.continually(Map("pageNo" -> Random.nextInt(20)))
 
   private val pizzaFeeder = Array(
     Map("name" -> "Margherita"),
@@ -26,7 +27,7 @@ class PizzaSimulationSmall extends Simulation {
     .baseUrl("http://localhost:8080")
     .acceptHeader("application/json")
 
-  private val getPizzas = http("Get pizzas").get("/pizzas")
+  private val getPizzas = http("Get pizzas").get("/pizzas?page=${pageNo}&size=25")
   private val searchPizzaByName = http("Search pizza by name").get("/pizzas?name=${name}")
   private val getPizzaIngredientsByPizzaId = http("Get pizza ingredients by pizzaId").get("/pizzas/${id}/ingredients")
   private val createPizza = http("Create pizza").post("/pizzas").body(StringBody("{\"name\": \"${pizzaName}\"}")).asJson
@@ -38,16 +39,19 @@ class PizzaSimulationSmall extends Simulation {
     .feed(pizzaIdFeeder)
     .exec(getPizzaIngredientsByPizzaId)
     .pause(2.seconds)
+    .feed(pizzaPageFeeder)
     .exec(getPizzas)
     .pause(2.seconds)
     .feed(newPizzaNameFeeder)
     .exec(createPizza)
     .pause(2.seconds)
+    .feed(pizzaPageFeeder)
     .exec(getPizzas)
     .exec(someGroup)
 
   setUp(
     pizzaScenario.inject(
+      rampUsers(100).during(20.seconds),
       atOnceUsers(100))
   )
     .assertions(global.responseTime.max.lte(3000), details("CreatePizzaAndSearchPizzaByNameGroup" / "Search pizza by name").responseTime.max.lte(50), global.failedRequests.percent.is(0))

@@ -22,7 +22,12 @@ public class PizzaService {
     private final PizzaRepository pizzaRepository;
 
     public List<PizzaDTO> findAll() {
-        return pizzaRepository.findAll(PageRequest.of(new Random().nextInt(20), 50)).stream().map(converter::toDTO)
+        return pizzaRepository.findAll().stream().map(converter::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<PizzaDTO> findAll(int pageNo, int pageSize) {
+        return pizzaRepository.findAll(PageRequest.of(pageNo, pageSize)).stream().map(converter::toDTO)
                 .collect(Collectors.toList());
     }
 
