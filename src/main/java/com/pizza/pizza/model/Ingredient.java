@@ -32,7 +32,11 @@ public class Ingredient extends RepresentationModel<Ingredient>{
 
     @OneToMany(mappedBy = "ingredient") @ToString.Exclude @EqualsAndHashCode.Exclude
     @JsonIgnore
-    Set<PizzaIngredient> pizzaIngredients;
+    private Set<PizzaIngredient> pizzaIngredients;
+
+    @ManyToOne
+    @JoinColumn(name="supplier")
+    private Supplier supplier;
 
     @Override
     public boolean equals(Object o) {

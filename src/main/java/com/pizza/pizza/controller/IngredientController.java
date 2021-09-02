@@ -3,6 +3,7 @@ package com.pizza.pizza.controller;
 import com.pizza.pizza.assembler.IngredientModelAssembler;
 import com.pizza.pizza.dto.IngredientDTO;
 import com.pizza.pizza.service.IngredientService;
+import io.swagger.models.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -10,6 +11,7 @@ import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -18,6 +20,7 @@ public class IngredientController {
 
     private final IngredientService ingredientService;
     private final IngredientModelAssembler ingredientModelAssembler;
+
 
     @GetMapping("/ingredients")
     public ResponseEntity<CollectionModel<EntityModel<IngredientDTO>>> getIngredients() {
@@ -33,6 +36,11 @@ public class IngredientController {
     @GetMapping(path = "/ingredients", params = {"name"})
     public ResponseEntity<EntityModel<IngredientDTO>> getIngredient(@RequestParam String name) {
         return ResponseEntity.ok(ingredientModelAssembler.toModel(ingredientService.findByName(name)));
+    }
+
+    @GetMapping(path= "ingredients", params = {"supplierId"})
+    public ResponseEntity<List<IngredientDTO>> getIngredientsBySupplierId(@RequestParam Long supplierId){
+        return ResponseEntity.ok(ingredientService.findBySupplierId(supplierId));
     }
 
     @PostMapping("/ingredients")

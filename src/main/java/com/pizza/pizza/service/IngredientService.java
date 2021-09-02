@@ -23,6 +23,10 @@ public class IngredientService {
                 .collect(Collectors.toList());
     }
 
+    public List<IngredientDTO> findBySupplierId(Long supplierId){
+        return ingredientRepository.findBySupplierId(supplierId).stream().map(converter::toDTO).collect(Collectors.toList());
+    }
+
     public IngredientDTO findById(Long id) {
         return ingredientRepository.findById(id).map(converter::toDTO)
                 .orElseThrow(() -> new IngredientNotFoundException(id));
