@@ -25,13 +25,15 @@ public class IngredientSupplier {
   private IngredientSupplierId id;
 
   @ManyToOne
-  @MapsId("supplier")
+  @JoinColumn(name = "supplier")
+  @MapsId("supplierId")
   @NotNull
   @NonNull
   private Supplier supplier;
 
   @ManyToOne
-  @MapsId("ingredient")
+  @JoinColumn(name = "ingredient")
+  @MapsId("ingredientId")
   @NotNull
   @NonNull
   private Ingredient ingredient;

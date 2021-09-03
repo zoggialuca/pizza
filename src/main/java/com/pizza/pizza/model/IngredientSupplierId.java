@@ -12,9 +12,9 @@ import org.hibernate.Hibernate;
 @Getter
 public class IngredientSupplierId implements Serializable {
 
-  @JoinColumn(name = "ingredient", insertable = false, updatable = false, unique = true)
+  @Column(name = "ingredient", insertable = false, updatable = false, unique = true)
   private Long ingredientId;
-  @JoinColumn(name = "supplier", insertable = false, updatable = false)
+  @Column(name = "supplier", insertable = false, updatable = false)
   private Long supplierId;
 
   @Override

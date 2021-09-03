@@ -4,7 +4,9 @@ import com.pizza.pizza.dto.SupplierDTO;
 import com.pizza.pizza.model.Supplier;
 
 import java.util.Optional;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SupplierEntityDTOBidirectionalConverter implements EntityDTOBidirectionalConverter<Supplier, SupplierDTO>{
     @Override
     public Optional<Supplier> toOptionalEntity(SupplierDTO dto) {
