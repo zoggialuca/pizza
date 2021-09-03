@@ -3,6 +3,9 @@ package com.pizza.pizza.model;
 import java.util.Objects;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -21,17 +24,18 @@ import org.hibernate.Hibernate;
 @ToString
 public class IngredientSupplier {
 
-  @EmbeddedId
-  private IngredientSupplierId id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
   @ManyToOne
-  @MapsId("supplier")
+  @JoinColumn(name = "supplier")
   @NotNull
   @NonNull
   private Supplier supplier;
 
   @ManyToOne
-  @MapsId("ingredient")
+  @JoinColumn(name = "ingredient", unique = true)
   @NotNull
   @NonNull
   private Ingredient ingredient;

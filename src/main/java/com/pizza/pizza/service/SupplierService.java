@@ -61,7 +61,7 @@ public class SupplierService {
     List<Long> ingredientIds = ingredients.stream().map(Ingredient::getId).collect(Collectors.toList());
     List<Long> ingredientsAlreadySupplied = ingredientSupplierRepository.findAllByIngredientIdIn(ingredientIds)
         .stream()
-        .map(ingredientSupplier -> ingredientSupplier.getId().getIngredientId())
+        .map(ingredientSupplier -> ingredientSupplier.getIngredient().getId())
         .collect(Collectors.toList());
 
     return ingredients.stream()

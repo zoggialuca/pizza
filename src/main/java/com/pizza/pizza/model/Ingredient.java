@@ -1,6 +1,7 @@
 package com.pizza.pizza.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
@@ -53,9 +54,8 @@ public class Ingredient extends RepresentationModel<Ingredient> {
   @JsonIgnore
   private Set<PizzaIngredient> pizzaIngredients;
 
-  @ManyToOne
-  @JoinColumns({@JoinColumn(name = "supplier"), @JoinColumn(name = "ingredient")})
-  private IngredientSupplier supplier;
+  @OneToMany(mappedBy = "supplier")
+  private List<IngredientSupplier> supplier;
 
   @Override
   public boolean equals(Object o) {
