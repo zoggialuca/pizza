@@ -4,6 +4,7 @@ import com.pizza.pizza.converter.EntityDTOBidirectionalConverter;
 import com.pizza.pizza.dto.IngredientDTO;
 import com.pizza.pizza.dto.SupplierDTO;
 import com.pizza.pizza.dto.SupplierUpdateRequestDTO;
+import com.pizza.pizza.exception.IngredientAlreadySuppliedException;
 import com.pizza.pizza.exception.IngredientNotFoundException;
 import com.pizza.pizza.exception.SupplierNameAlreadyExistsException;
 import com.pizza.pizza.exception.SupplierNotFoundException;
@@ -46,8 +47,13 @@ public class SupplierService {
     if (ingredients.isEmpty()) {
       throw new IngredientNotFoundException(ingredientIds);
     }
+    var possibleIngredientSupplierToAdd = prepareIngredientsToAdd(ingredients, supplier);
+    if (possibleIngredientSupplierToAdd.isEmpty()) {
+      throw new IngredientAlreadySuppliedException(ingredients.stream().map(Ingredient::getId).collect(
+          Collectors.toList()));
+    }
 
-    supplier.getIngredients().addAll(prepareIngredientsToAdd(ingredients, supplier));
+    supplier.getIngredients().addAll(possibleIngredientSupplierToAdd);
     supplierRepository.save(supplier);
   }
 

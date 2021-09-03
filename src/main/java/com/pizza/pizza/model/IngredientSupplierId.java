@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
 import lombok.Getter;
 import org.hibernate.Hibernate;
 
@@ -11,9 +12,9 @@ import org.hibernate.Hibernate;
 @Getter
 public class IngredientSupplierId implements Serializable {
 
-  @Column(name = "ingredient_id", unique = true)
+  @JoinColumn(name = "ingredient", insertable = false, updatable = false, unique = true)
   private Long ingredientId;
-  @Column(name = "supplier_id")
+  @JoinColumn(name = "supplier", insertable = false, updatable = false)
   private Long supplierId;
 
   @Override

@@ -6,6 +6,7 @@ import javax.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,10 +17,8 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "supplier"
-        , uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})}
+@Table(name = "supplier", uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})}
 )
 public class Supplier {
 
@@ -29,8 +28,10 @@ public class Supplier {
 
     @Column(nullable = false)
     @NotBlank
+    @NonNull
     private String email;
     @NotBlank
+    @NonNull
     private String name;
 
     private String address;

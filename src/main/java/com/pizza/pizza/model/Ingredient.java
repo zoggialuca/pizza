@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -53,7 +54,7 @@ public class Ingredient extends RepresentationModel<Ingredient> {
   private Set<PizzaIngredient> pizzaIngredients;
 
   @ManyToOne
-  @JoinColumn(name = "supplier")
+  @JoinColumns({@JoinColumn(name = "supplier"), @JoinColumn(name = "ingredient")})
   private IngredientSupplier supplier;
 
   @Override
