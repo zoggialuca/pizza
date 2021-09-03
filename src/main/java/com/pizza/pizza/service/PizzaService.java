@@ -4,6 +4,7 @@ import com.pizza.pizza.converter.EntityDTOBidirectionalConverter;
 import com.pizza.pizza.dto.PizzaDTO;
 import com.pizza.pizza.exception.IngredientAlreadyExistsException;
 import com.pizza.pizza.exception.IngredientNotFoundException;
+import com.pizza.pizza.exception.PizzaAlreadyExistsException;
 import com.pizza.pizza.exception.PizzaNotFoundException;
 import com.pizza.pizza.model.Pizza;
 import com.pizza.pizza.repository.PizzaRepository;
@@ -53,7 +54,7 @@ public class PizzaService {
 
     public PizzaDTO update(PizzaDTO pizzaDTO, Long id) {
         if (pizzaRepository.findByName(pizzaDTO.getName()).isPresent()) {
-            throw new IngredientAlreadyExistsException(pizzaDTO.getName());
+            throw new PizzaAlreadyExistsException(pizzaDTO.getName());
         }
         return pizzaRepository.findById(id)
                 .map(pizza -> {
@@ -61,7 +62,7 @@ public class PizzaService {
                     return pizzaRepository.save(pizza);
                 })
                 .map(converter::toDTO)
-                .orElseThrow(() -> new IngredientNotFoundException(id));
+                .orElseThrow(() -> new PizzaNotFoundException(id));
     }
 
     public void delete(Long id) {

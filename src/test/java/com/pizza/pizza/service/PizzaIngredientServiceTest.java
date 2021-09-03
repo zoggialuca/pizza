@@ -81,4 +81,7 @@ public class PizzaIngredientServiceTest {
         when(ingredientRepository.findById(ingredientId)).thenReturn(Optional.empty());
         assertThatExceptionOfType(IngredientNotFoundException.class).isThrownBy(() -> pizzaIngredientService.update(testRequest, 1L));
     }
+
+
+
 }
