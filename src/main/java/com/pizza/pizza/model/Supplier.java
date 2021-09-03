@@ -35,8 +35,8 @@ public class Supplier {
 
     private String address;
 
-    @OneToMany(mappedBy = "ingredient")
-    private List<Ingredient> ingredients;
+    @OneToMany(mappedBy = "ingredient", cascade = CascadeType.REMOVE) @ToString.Exclude
+    private List<IngredientSupplier> ingredients;
 
     public Supplier(String email, String name, String address) {
         this.email = email;
