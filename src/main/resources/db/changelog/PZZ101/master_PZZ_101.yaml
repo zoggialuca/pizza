@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - include:
+      file: changeLog-PZZ-101.groovy
+      relativeToChangelogFile: true
+  - include:
+      id: init_pizzas
+      author: jdaze
+      file: init_pizzas.sql
+      relativeToChangelogFile: true
+  - include:
+      id: init_ingredients
+      author: jdaze
+      file: init_ingredients.sql
+      relativeToChangelogFile: true
+  - include:
+      id: init_unit_of_measures
+      author: jdaze
+      file: init_unit_of_measures.sql
+      relativeToChangelogFile: true
+  - include:
+      id: init_pizza_ingredients
+      author: jdaze
+      file: init_pizza_ingredients.sql
+      relativeToChangelogFile: true

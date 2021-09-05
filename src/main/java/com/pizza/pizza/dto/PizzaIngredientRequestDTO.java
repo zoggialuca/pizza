@@ -1,27 +1,27 @@
 package com.pizza.pizza.dto;
 
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.validation.constraints.NotNull;
-
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode
-public class PizzaIngredientRequestDTO{
-    private Long id;
+public class PizzaIngredientRequestDTO {
 
-    @NotNull
-    private Long pizzaId;
+  private Long id;
 
-    @NotNull
-    private Long ingredientId;
+  @NotNull
+  private Long pizzaId;
 
-    private Double quantity;
+  @NotNull
+  private Long ingredientId;
 
-    @NotNull
-    private Long unitOfMeasureId;
+  private Double quantity;
+
+  @NotNull
+  private Long unitOfMeasureId;
 }

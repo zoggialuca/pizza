@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class UnitOfMeasureAlreadyExistsControllerAdvice {
 
-    @ResponseBody
-    @ExceptionHandler(UnitOfMeasureAlreadyExistsException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    String handleUnitOfMeasureNotFoundException(UnitOfMeasureAlreadyExistsException unitOfMeasureAlreadyExistsException){
-        return unitOfMeasureAlreadyExistsException.getMessage();
-    }
+  @ResponseBody
+  @ExceptionHandler(UnitOfMeasureAlreadyExistsException.class)
+  @ResponseStatus(HttpStatus.CONFLICT)
+  String handleUnitOfMeasureNotFoundException(UnitOfMeasureAlreadyExistsException unitOfMeasureAlreadyExistsException) {
+    return unitOfMeasureAlreadyExistsException.getMessage();
+  }
 }

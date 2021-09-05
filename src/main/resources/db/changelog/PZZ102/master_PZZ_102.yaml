@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: changeLog-PZZ-102.groovy
+      relativeToChangelogFile: true
+  - include:
+      id: add_pizzas
+      author: jdaze
+      file: add_pizzas.sql
+      relativeToChangelogFile: true

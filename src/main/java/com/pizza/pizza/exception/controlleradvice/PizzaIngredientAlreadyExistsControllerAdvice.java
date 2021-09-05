@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class PizzaIngredientAlreadyExistsControllerAdvice {
 
-    @ResponseBody
-    @ExceptionHandler(PizzaIngredientAlreadyExistsException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    String handlePizzaIngredientAlreadyExistsException(PizzaIngredientAlreadyExistsException pizzaIngredientAlreadyExistsException){
-        return pizzaIngredientAlreadyExistsException.getMessage();
-    }
+  @ResponseBody
+  @ExceptionHandler(PizzaIngredientAlreadyExistsException.class)
+  @ResponseStatus(HttpStatus.CONFLICT)
+  String handlePizzaIngredientAlreadyExistsException(PizzaIngredientAlreadyExistsException pizzaIngredientAlreadyExistsException) {
+    return pizzaIngredientAlreadyExistsException.getMessage();
+  }
 }

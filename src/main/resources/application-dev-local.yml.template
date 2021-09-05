@@ -1,0 +1,17 @@
+#this is template of properties file for local development
+#feel free to copy it, remove '.template' from copy's name and use for local development
+
+spring:
+  datasource:
+    url: "jdbc:h2:mem:testdb;DATABASE_TO_UPPER=false"
+    driverClassName: rg.h2.Driver
+    username: "sa"
+    password: "password"
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  liquibase:
+    contexts: h2
+
+settings:
+  cors_origin: *
+

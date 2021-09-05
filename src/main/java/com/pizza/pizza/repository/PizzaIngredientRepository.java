@@ -1,16 +1,17 @@
 package com.pizza.pizza.repository;
 
 import com.pizza.pizza.model.PizzaIngredient;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
-import java.util.Optional;
+public interface PizzaIngredientRepository extends JpaRepository<PizzaIngredient, Long> {
 
-public interface PizzaIngredientRepository  extends JpaRepository<PizzaIngredient, Long>{
-    List<PizzaIngredient> findByPizzaId(Long pizzaId);
-    Optional<PizzaIngredient> findByPizzaIdAndIngredientId(Long pizzaId, Long ingredientId);
+  List<PizzaIngredient> findByPizzaId(Long pizzaId);
+
+  Optional<PizzaIngredient> findByPizzaIdAndIngredientId(Long pizzaId, Long ingredientId);
 
     /*
     @Query(value = "insert into PizzaIngredient(pizza.id, ingredient.id, quantity, unitOfMeasure.id)" +
@@ -20,10 +21,9 @@ public interface PizzaIngredientRepository  extends JpaRepository<PizzaIngredien
     PizzaIngredient insertJPQL(Long pizzaId, Long ingredientId, double quantity, Long unitOfMeasureId);
     */
 
-    @Query(value = "insert into pizza_ingredient(pizza_id, ingredient_id, quantity, unit_of_measure_id)" +
-            "values(:pizzaId, :ingredientId, :quantity, :unitOfMeasureId)"
-            , nativeQuery = true
-    )
-    @Modifying
-    PizzaIngredient insertNative(Long pizzaId, Long ingredientId, double quantity, Long unitOfMeasureId);
+  @Query(value = "insert into pizza_ingredient(pizza_id, ingredient_id, quantity, unit_of_measure_id)"
+      + "values(:pizzaId, :ingredientId, :quantity, :unitOfMeasureId)", nativeQuery = true
+  )
+  @Modifying
+  PizzaIngredient insertNative(Long pizzaId, Long ingredientId, double quantity, Long unitOfMeasureId);
 }

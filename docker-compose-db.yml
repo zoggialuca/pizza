@@ -9,7 +9,8 @@ services:
       - dbdata:/var/lib/mysql
     restart: always
     environment:
-      -  MYSQL_ROOT_PASSWORD=password
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_DATABASE: db_example
     ports:
       - 3306:3306
     networks: 
@@ -20,7 +21,7 @@ services:
     restart: always
     ports:
       - 3003:8080
-    networks: 
+    networks:
       - backend
 
 networks:

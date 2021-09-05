@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - include:
+      file: changeLog-master.groovy
+      relativeToChangelogFile: true
+  - include:
+      file: changelog/PZZ101/master_PZZ_101.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: changelog/PZZ102/master_PZZ_102.yaml
+      relativeToChangelogFile: true

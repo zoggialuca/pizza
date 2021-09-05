@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class UnitOfMeasureNotFoundControllerAdvice {
-    
-    @ResponseBody
-    @ExceptionHandler(UnitOfMeasureNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    String handleUnitOfMeasureNotFoundException(UnitOfMeasureNotFoundException pizzaNotFoundException){
-        return pizzaNotFoundException.getMessage();
-    }
+
+  @ResponseBody
+  @ExceptionHandler(UnitOfMeasureNotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  String handleUnitOfMeasureNotFoundException(UnitOfMeasureNotFoundException pizzaNotFoundException) {
+    return pizzaNotFoundException.getMessage();
+  }
 }

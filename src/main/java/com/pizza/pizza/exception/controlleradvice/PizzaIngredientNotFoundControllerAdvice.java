@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class PizzaIngredientNotFoundControllerAdvice {
-    
-    @ResponseBody
-    @ExceptionHandler(PizzaIngredientNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    String handlePizzaIngredientNotFoundException(PizzaIngredientNotFoundException pizzaIngredientNotFoundException){
-        return pizzaIngredientNotFoundException.getMessage();
-    }
+
+  @ResponseBody
+  @ExceptionHandler(PizzaIngredientNotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  String handlePizzaIngredientNotFoundException(PizzaIngredientNotFoundException pizzaIngredientNotFoundException) {
+    return pizzaIngredientNotFoundException.getMessage();
+  }
 }

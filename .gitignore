@@ -41,3 +41,6 @@ out/
 !/sonarqube/instructions.md
 
 /.jpb/
+
+/src/main/resources/application-dev-local.yml
+/lombok.config

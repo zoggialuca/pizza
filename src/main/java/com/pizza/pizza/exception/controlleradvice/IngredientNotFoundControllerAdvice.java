@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class IngredientNotFoundControllerAdvice {
 
-    @ResponseBody
-    @ExceptionHandler(IngredientNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    String handleIngredientNotFoundException(IngredientNotFoundException ingredientNotFoundException){
-        return ingredientNotFoundException.getMessage();
-    }
+  @ResponseBody
+  @ExceptionHandler(IngredientNotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  String handleIngredientNotFoundException(IngredientNotFoundException ingredientNotFoundException) {
+    return ingredientNotFoundException.getMessage();
+  }
 }
