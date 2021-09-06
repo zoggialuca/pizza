@@ -123,4 +123,12 @@ class UnitOfMeasureServiceTest {
 
     assertThat(result).hasSize(0);
   }
+
+
+
+  @Test
+  public void shouldCallDeleteOnRepository(){
+    unitOfMeasureService.delete(1L);
+    verify(unitOfMeasureRepository).deleteById(1L);
+  }
 }
