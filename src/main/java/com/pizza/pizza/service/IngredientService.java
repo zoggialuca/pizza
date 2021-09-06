@@ -46,8 +46,10 @@ public class IngredientService {
         if (ingredientRepository.findByName(ingredientDTO.getName()).isPresent()) {
             throw new IngredientAlreadyExistsException(ingredientDTO.getName());
         }
+
         return ingredientRepository.findById(id)
                 .map(ingredient -> {
+                    ingredient.setName(ingredientDTO.getName());
                     ingredient.setNotes(ingredientDTO.getNotes());
                     return ingredientRepository.save(ingredient);
                 })
