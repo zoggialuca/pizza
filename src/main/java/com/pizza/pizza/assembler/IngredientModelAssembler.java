@@ -16,7 +16,7 @@ public class IngredientModelAssembler implements RepresentationModelAssembler<In
   public EntityModel<IngredientDTO> toModel(IngredientDTO ingredientDTO) {
     return EntityModel.of(ingredientDTO,
         linkTo(methodOn(IngredientController.class).getIngredient(ingredientDTO.getId())).withSelfRel(),
-        linkTo(methodOn(IngredientController.class).getIngredients()).withRel("ingredients")
+        linkTo(methodOn(IngredientController.class).getIngredients()).withRel("ingredient")
     );
   }
 }

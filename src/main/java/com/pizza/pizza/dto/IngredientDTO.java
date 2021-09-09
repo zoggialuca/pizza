@@ -1,15 +1,17 @@
 package com.pizza.pizza.dto;
 
 import javax.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
 @Getter
-@Setter
+@Builder
+@AllArgsConstructor(staticName = "of")
 @ToString
 @EqualsAndHashCode(callSuper = true)
 @Relation(collectionRelation = "ingredientList", itemRelation = "ingredient")

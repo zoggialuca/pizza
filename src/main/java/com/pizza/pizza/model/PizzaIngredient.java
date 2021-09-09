@@ -10,9 +10,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
@@ -21,8 +22,9 @@ import org.springframework.hateoas.RepresentationModel;
 @Entity
 @Getter
 @Setter
+@Builder
 @ToString
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Table(name = "pizza_ingredient", uniqueConstraints = { @UniqueConstraint(columnNames = { "pizza", "ingredient" }) })
 public class PizzaIngredient extends RepresentationModel<PizzaIngredient> {
 
@@ -47,10 +49,6 @@ public class PizzaIngredient extends RepresentationModel<PizzaIngredient> {
   private UnitOfMeasure unitOfMeasure;
 
   private Double quantity;
-
-  protected PizzaIngredient() {
-    this(new Pizza(), new Ingredient());
-  }
 
   @Override
   public boolean equals(Object o) {

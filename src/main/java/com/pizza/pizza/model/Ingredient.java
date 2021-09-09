@@ -13,11 +13,12 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
@@ -26,8 +27,9 @@ import org.springframework.hateoas.RepresentationModel;
 @Entity
 @Getter
 @Setter
+@Builder
 @ToString
-@RequiredArgsConstructor
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "ingredient", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }) })
 public class Ingredient extends RepresentationModel<Ingredient> {

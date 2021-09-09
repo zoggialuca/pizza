@@ -14,10 +14,9 @@ public class UnitOfMeasureEntityDTOBidirectionalConverter implements EntityDTOBi
       return null;
     }
 
-    var unitOfMeasureDTO = new UnitOfMeasureDTO();
-    unitOfMeasureDTO.setId(unitOfMeasure.getId());
-    unitOfMeasureDTO.setName(unitOfMeasure.getName());
-    return unitOfMeasureDTO;
+    return UnitOfMeasureDTO.builder()
+                           .id(unitOfMeasure.getId())
+                           .name(unitOfMeasure.getName()).build();
   }
 
   @Override
@@ -26,8 +25,9 @@ public class UnitOfMeasureEntityDTOBidirectionalConverter implements EntityDTOBi
       return Optional.empty();
     }
 
-    var unitOfMeasure = new UnitOfMeasure(unitOfMeasureDTO.getName());
-    unitOfMeasure.setId(unitOfMeasureDTO.getId());
-    return Optional.of(unitOfMeasure);
+    return Optional.of(UnitOfMeasure.builder()
+                                    .id(unitOfMeasureDTO.getId())
+                                    .name(unitOfMeasureDTO.getName())
+                                    .build());
   }
 }

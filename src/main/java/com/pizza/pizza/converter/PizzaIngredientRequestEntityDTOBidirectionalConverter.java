@@ -38,10 +38,13 @@ public class PizzaIngredientRequestEntityDTOBidirectionalConverter implements DT
     var unitOfMeasure = unitOfMeasureRepository.findById(unitOfMeasureId)
                                                .orElseThrow(() -> new UnitOfMeasureNotFoundException(unitOfMeasureId));
 
-    var pizzaIngredient = new PizzaIngredient(pizza, ingredient);
-    pizzaIngredient.setId(pizzaIngredientRequestDTO.getId());
-    pizzaIngredient.setQuantity(pizzaIngredientRequestDTO.getQuantity());
-    pizzaIngredient.setUnitOfMeasure(unitOfMeasure);
+    var pizzaIngredient = PizzaIngredient.builder()
+                                         .pizza(pizza)
+                                         .ingredient(ingredient)
+                                         .id(pizzaIngredientRequestDTO.getId())
+                                         .quantity(pizzaIngredientRequestDTO.getQuantity())
+                                         .unitOfMeasure(unitOfMeasure)
+                                         .build();
     return Optional.of(pizzaIngredient);
   }
 }

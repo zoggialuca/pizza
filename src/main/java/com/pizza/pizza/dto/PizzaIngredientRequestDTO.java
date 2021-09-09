@@ -1,13 +1,17 @@
 package com.pizza.pizza.dto;
 
 import javax.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
-@Setter
+@Builder
+@AllArgsConstructor(staticName = "of")
+@NoArgsConstructor
 @ToString
 @EqualsAndHashCode
 public class PizzaIngredientRequestDTO {

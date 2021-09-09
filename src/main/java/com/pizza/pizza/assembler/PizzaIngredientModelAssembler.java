@@ -24,18 +24,18 @@ public class PizzaIngredientModelAssembler implements RepresentationModelAssembl
   @Override
   public EntityModel<PizzaIngredientResponseDTO> toModel(PizzaIngredientResponseDTO pizzaIngredientResponseDTO) {
     var pizzaDTO = pizzaIngredientResponseDTO.getPizzaDTO();
-    if (!pizzaDTO.hasLinks()) { //prevents to repeat the links multiple times in case of multiple ingredients for the same pizza
+    if (!pizzaDTO.hasLinks()) { //prevents to repeat the links multiple times in case of multiple ingredient for the same pizza
       pizzaDTO.add(
-          pizzaModelAssembler.toModel(pizzaDTO).getLinks().stream().filter(link -> !link.getRel().value().equals("ingredients")).collect(Collectors.toList()));
+          pizzaModelAssembler.toModel(pizzaDTO).getLinks().stream().filter(link -> !link.getRel().value().equals("ingredient")).collect(Collectors.toList()));
     }
 
     var ingredientDTO = pizzaIngredientResponseDTO.getIngredientDTO();
-    if (!ingredientDTO.hasLinks()) { //prevents to repeat the links multiple times in case of multiple ingredients for the same ingredient
+    if (!ingredientDTO.hasLinks()) { //prevents to repeat the links multiple times in case of multiple ingredient for the same ingredient
       ingredientDTO.add(ingredientModelAssembler.toModel(ingredientDTO).getLinks());
     }
 
     var unitOfMeasureDTO = pizzaIngredientResponseDTO.getUnitOfMeasureDTO();
-    if (!unitOfMeasureDTO.hasLinks()) { //prevents to repeat the links multiple times in case of multiple ingredients for the same unit of measure
+    if (!unitOfMeasureDTO.hasLinks()) { //prevents to repeat the links multiple times in case of multiple ingredient for the same unit of measure
       unitOfMeasureDTO.add(unitOfMeasureModelAssembler.toModel(unitOfMeasureDTO).getLinks());
     }
 

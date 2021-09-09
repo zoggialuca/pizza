@@ -14,11 +14,11 @@ public class IngredientEntityDTOBidirectionalConverter implements EntityDTOBidir
       return null;
     }
 
-    var ingredientDTO = new IngredientDTO();
-    ingredientDTO.setId(ingredient.getId());
-    ingredientDTO.setName(ingredient.getName());
-    ingredientDTO.setNotes(ingredient.getNotes());
-    return ingredientDTO;
+    return IngredientDTO.builder()
+                        .id(ingredient.getId())
+                        .name(ingredient.getName())
+                        .notes(ingredient.getNotes())
+                        .build();
   }
 
   @Override
@@ -27,9 +27,11 @@ public class IngredientEntityDTOBidirectionalConverter implements EntityDTOBidir
       return Optional.empty();
     }
 
-    var ingredient = new Ingredient(ingredientDTO.getName());
-    ingredient.setId(ingredientDTO.getId());
-    ingredient.setNotes(ingredientDTO.getNotes());
+    var ingredient = Ingredient.builder()
+                               .name(ingredientDTO.getName())
+                               .id(ingredientDTO.getId())
+                               .notes(ingredientDTO.getNotes())
+                               .build();
     return Optional.of(ingredient);
   }
 }

@@ -19,12 +19,12 @@ public class PizzaIngredientResponseEntityDTOBidirectionalConverter implements E
       return null;
     }
 
-    var pizzaIngredientResponseDTO = new PizzaIngredientResponseDTO();
-    pizzaIngredientResponseDTO.setId(pizzaIngredient.getId());
-    pizzaIngredientResponseDTO.setPizzaDTO(pizzaConverter.toDTO(pizzaIngredient.getPizza()));
-    pizzaIngredientResponseDTO.setIngredientDTO(ingredientConverter.toDTO(pizzaIngredient.getIngredient()));
-    pizzaIngredientResponseDTO.setQuantity(pizzaIngredient.getQuantity());
-    pizzaIngredientResponseDTO.setUnitOfMeasureDTO(unitOfMeasureConverter.toDTO(pizzaIngredient.getUnitOfMeasure()));
-    return pizzaIngredientResponseDTO;
+    return PizzaIngredientResponseDTO.builder()
+                                     .id(pizzaIngredient.getId())
+                                     .pizzaDTO(pizzaConverter.toDTO(pizzaIngredient.getPizza()))
+                                     .ingredientDTO(ingredientConverter.toDTO(pizzaIngredient.getIngredient()))
+                                     .quantity(pizzaIngredient.getQuantity())
+                                     .unitOfMeasureDTO(unitOfMeasureConverter.toDTO(pizzaIngredient.getUnitOfMeasure()))
+                                     .build();
   }
 }

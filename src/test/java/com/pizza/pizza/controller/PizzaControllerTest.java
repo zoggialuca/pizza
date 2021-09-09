@@ -18,12 +18,14 @@ class PizzaControllerTest extends ControllerTest {
   private PizzaRepository repository;
 
   private static List<PizzaDTO> getPizzasToCreate() {
-    var pizza1 = new PizzaDTO();
-    pizza1.setName("Margherita");
-    pizza1.setVegetarian(true);
-    var pizza2 = new PizzaDTO();
-    pizza2.setName("Capricciosa");
-    pizza2.setVegetarian(false);
+    var pizza1 = PizzaDTO.builder()
+                         .name("Margherita")
+                         .isVegetarian(true)
+                         .build();
+    var pizza2 = PizzaDTO.builder()
+                         .name("Capricciosa")
+                         .isVegetarian(false)
+                         .build();
     return List.of(pizza1, pizza2);
   }
 
@@ -36,8 +38,7 @@ class PizzaControllerTest extends ControllerTest {
   @MethodSource("getPizzasToCreate")
   void shouldCreatePizza(PizzaDTO pizzaDTO) {
     var responseBody = request().body(pizzaDTO).post("/pizzas")
-                                .then().statusCode(201).extract().body().as(new TypeRef<EntityModel<PizzaDTO>>() {
-                                });
+                                .then().statusCode(201).extract().body().as(new TypeRef<EntityModel<PizzaDTO>>() {});
     assertThat(responseBody.getContent()).extracting("name").isEqualTo(pizzaDTO.getName());
     assertThat(repository.count()).isNotZero();
   }

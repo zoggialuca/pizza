@@ -1,76 +1,95 @@
 plugins {
-    id 'org.springframework.boot' version '2.5.2'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'java'
-    id "org.sonarqube" version "3.3"
-    id 'org.liquibase.gradle' version '2.0.3'
-    id 'groovy'
-    id 'checkstyle'
+  id 'org.springframework.boot' version '2.5.2'
+  id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+  id 'java'
+  id "org.sonarqube" version "3.3"
+  id 'org.liquibase.gradle' version '2.0.3'
+  id 'groovy'
+  id 'checkstyle'
 }
 
 allprojects {
-	group = 'com.pizza'
-	version = '0.0.1'
-	sourceCompatibility = '11'
+  group = 'com.pizza'
+  version = '0.0.1'
+  sourceCompatibility = '11'
 }
 
 configurations {
-    compileOnly.extendsFrom annotationProcessor
-    liquibaseRuntime.extendsFrom runtime
-    liquibaseRuntime.extendsFrom implementation
+  compileOnly.extendsFrom annotationProcessor
+  liquibaseRuntime.extendsFrom runtime
+  liquibaseRuntime.extendsFrom implementation
 }
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-hateoas'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'io.springfox:springfox-boot-starter:3.0.0'
-    implementation 'io.springfox:springfox-bean-validators:3.0.0'
-    implementation 'org.liquibase:liquibase-core'
-    implementation 'org.projectlombok:lombok'
-    runtimeOnly 'mysql:mysql-connector-java'
-    runtimeOnly 'com.h2database:h2'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'io.rest-assured:rest-assured:4.4.0'
-    testImplementation 'org.assertj:assertj-core:3.20.2'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    annotationProcessor 'org.projectlombok:lombok'
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+  implementation 'org.springframework.boot:spring-boot-starter-hateoas'
+  implementation 'org.springframework.boot:spring-boot-starter-validation'
+  implementation 'io.springfox:springfox-boot-starter:3.0.0'
+  implementation 'io.springfox:springfox-bean-validators:3.0.0'
+  implementation 'org.liquibase:liquibase-core'
+  implementation 'org.projectlombok:lombok'
+  runtimeOnly 'mysql:mysql-connector-java'
+  runtimeOnly 'com.h2database:h2'
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  testImplementation 'io.rest-assured:rest-assured:4.4.0'
+  testImplementation 'org.assertj:assertj-core:3.20.2'
+  developmentOnly 'org.springframework.boot:spring-boot-devtools'
+  annotationProcessor 'org.projectlombok:lombok'
 
-    liquibaseRuntime 'org.liquibase:liquibase-core:3.8.1'
-    liquibaseRuntime 'mysql:mysql-connector-java'
-    liquibaseRuntime group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
-    liquibaseRuntime 'org.liquibase.ext:liquibase-hibernate5:3.6'
-    liquibaseRuntime sourceSets.main.output
+  liquibaseRuntime 'org.liquibase:liquibase-core:3.8.1'
+  liquibaseRuntime 'mysql:mysql-connector-java'
+  liquibaseRuntime group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+  liquibaseRuntime 'org.liquibase.ext:liquibase-hibernate5:3.6'
+  liquibaseRuntime sourceSets.main.output
+
+  //spock tests
+  testImplementation('org.springframework.security:spring-security-test')
+  testImplementation group: 'org.spockframework', name: 'spock-spring', version: '2.0-groovy-3.0'
+
+  implementation 'org.codehaus.groovy:groovy-all:3.0.8'
+  implementation 'org.codehaus.groovy:groovy:3.0.8'
+  implementation 'com.github.javafaker:javafaker:1.0.2'
+
+  //testcontainer
+  testImplementation "org.testcontainers:mysql:1.16.0"
+
+  testImplementation('org.spockframework:spock-core:2.0-groovy-3.0') {
+    exclude group: 'org.codehaus.groovy'
+  }
+}
+
+tasks.withType(Test).configureEach {
+  useJUnitPlatform()
 }
 
 test {
-    useJUnitPlatform()
+  useJUnitPlatform()
 }
 
 jar {
-    enabled = false
+  enabled = false
 }
 
-task('dev') {
-    println "executing dev"
-
-    liquibase {
-        activities {
-            main {
-                changeLogFile 'src/main/resources/db/changes/generated.xml'
-                url 'jdbc:mysql://localhost:3306/db_example'
-                referenceUrl 'hibernate:spring:com.pizza.pizza.model?dialect=org.hibernate.dialect.MySQL5Dialect'
-                username 'root'
-                password 'password'
-            }
-        }
-    }
-}
+//task('dev') {
+//  println "executing dev"
+//
+//  liquibase {
+//    activities {
+//      main {
+//        changeLogFile 'src/main/resources/db/changes/generated.xml'
+//        url 'jdbc:mysql://localhost:3306/db_example'
+//        referenceUrl 'hibernate:spring:com.pizza.pizza.model?dialect=org.hibernate.dialect.MySQL5Dialect'
+//        username 'root'
+//        password 'password'
+//      }
+//    }
+//  }
+//}
 
 
 

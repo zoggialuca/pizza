@@ -1,6 +1,7 @@
 package com.pizza.pizza.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pizza.pizza.dto.PizzaDTO;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
@@ -13,11 +14,12 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
@@ -26,8 +28,9 @@ import org.springframework.hateoas.RepresentationModel;
 @Entity
 @Getter
 @Setter
+@Builder
 @ToString
-@RequiredArgsConstructor
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "pizza", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }) })
 public class Pizza extends RepresentationModel<Pizza> {
@@ -63,5 +66,13 @@ public class Pizza extends RepresentationModel<Pizza> {
   @Override
   public int hashCode() {
     return 2055526148;
+  }
+
+  public PizzaDTO toDTO() {
+    return PizzaDTO.builder()
+                   .id(id)
+                   .name(name)
+                   .isVegetarian(isVegetarian)
+                   .build();
   }
 }

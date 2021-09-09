@@ -58,8 +58,9 @@ public class PizzaIngredientServiceTest {
   @Test
   void shouldThrowAnExceptionBecauseOfMissingPizza() {
     var pizzaId = 1L;
-    var testRequest = new PizzaIngredientRequestDTO();
-    testRequest.setPizzaId(pizzaId);
+    var testRequest = PizzaIngredientRequestDTO.builder()
+                                               .pizzaId(pizzaId)
+                                               .build();
     when(pizzaRepository.findById(pizzaId)).thenReturn(Optional.empty());
     assertThatExceptionOfType(PizzaNotFoundException.class).isThrownBy(() -> pizzaIngredientService.update(testRequest, 1L));
   }
@@ -68,10 +69,11 @@ public class PizzaIngredientServiceTest {
   void shouldThrowAnExceptionBecauseOfMissingIngredient() {
     var pizzaId = 1L;
     var ingredientId = 1L;
-    var testRequest = new PizzaIngredientRequestDTO();
-    testRequest.setPizzaId(pizzaId);
-    testRequest.setIngredientId(ingredientId);
-    when(pizzaRepository.findById(pizzaId)).thenReturn(Optional.of(new Pizza("testName")));
+    var testRequest = PizzaIngredientRequestDTO.builder()
+                                               .pizzaId(pizzaId)
+                                               .ingredientId(ingredientId)
+                                               .build();
+    when(pizzaRepository.findById(pizzaId)).thenReturn(Optional.of(Pizza.builder().name("testName").build()));
     when(ingredientRepository.findById(ingredientId)).thenReturn(Optional.empty());
     assertThatExceptionOfType(IngredientNotFoundException.class).isThrownBy(() -> pizzaIngredientService.update(testRequest, 1L));
   }

@@ -12,8 +12,8 @@ services:
       MYSQL_ROOT_PASSWORD: "password"
       MYSQL_DATABASE: db_example
     ports:
-      - 3306:3306
-    networks: 
+      - 33060:3306
+    networks:
       - backend
   adminer:
     image: adminer

@@ -68,7 +68,10 @@ public class PizzaIngredientService {
         && pizzaIngredient.getIngredient().getId().equals(ingredient.getId()))) {
       //at least, one key field has been changed. thus, we delete the existing record and we create a new one
       pizzaIngredientRepository.delete(pizzaIngredient);
-      pizzaIngredient = new PizzaIngredient(pizza, ingredient);
+      pizzaIngredient = PizzaIngredient.builder()
+                                       .pizza(pizza)
+                                       .ingredient(ingredient)
+                                       .build();
     }
 
     var unitOfMeasureID = pizzaIngredientRequestDTO.getUnitOfMeasureId();
